@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WalkableNodes>
+  <Node id="1" x="1" y="0" />
+  <Node id="10" x="0" y="1" />
+  <Node id="20" x="0" y="2" />
+  <Node id="21" x="1" y="2" />
+  <Node id="31" x="1" y="3" />
+  <Node id="32" x="2" y="3" />
+  <Node id="43" x="3" y="4" />
+  <Node id="53" x="3" y="5" />
+  <Node id="54" x="4" y="5" />
+  <Node id="65" x="5" y="6" />
+  <Node id="75" x="5" y="7" />
+  <Node id="76" x="6" y="7" />
+  <Node id="87" x="7" y="8" />
+  <Node id="88" x="8" y="8" />
+  <Node id="89" x="9" y="8" />
+</WalkableNodes>

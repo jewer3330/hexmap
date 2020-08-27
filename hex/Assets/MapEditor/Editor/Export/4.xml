@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root width="10" height="10">
+  <WalkableNodes>
+    <Node id="2" x="2" y="0" />
+    <Node id="3" x="3" y="0" />
+    <Node id="5" x="5" y="0" />
+    <Node id="6" x="6" y="0" />
+    <Node id="7" x="7" y="0" />
+    <Node id="11" x="1" y="1" />
+    <Node id="13" x="3" y="1" />
+    <Node id="17" x="7" y="1" />
+    <Node id="21" x="1" y="2" />
+    <Node id="24" x="4" y="2" />
+    <Node id="25" x="5" y="2" />
+    <Node id="26" x="6" y="2" />
+    <Node id="30" x="0" y="3" />
+    <Node id="32" x="2" y="3" />
+    <Node id="33" x="3" y="3" />
+    <Node id="34" x="4" y="3" />
+    <Node id="35" x="5" y="3" />
+    <Node id="36" x="6" y="3" />
+    <Node id="41" x="1" y="4" />
+    <Node id="44" x="4" y="4" />
+    <Node id="45" x="5" y="4" />
+    <Node id="46" x="6" y="4" />
+    <Node id="47" x="7" y="4" />
+    <Node id="48" x="8" y="4" />
+    <Node id="51" x="1" y="5" />
+    <Node id="53" x="3" y="5" />
+    <Node id="54" x="4" y="5" />
+    <Node id="55" x="5" y="5" />
+    <Node id="56" x="6" y="5" />
+    <Node id="62" x="2" y="6" />
+    <Node id="68" x="8" y="6" />
+    <Node id="72" x="2" y="7" />
+    <Node id="73" x="3" y="7" />
+    <Node id="74" x="4" y="7" />
+    <Node id="75" x="5" y="7" />
+    <Node id="76" x="6" y="7" />
+    <Node id="77" x="7" y="7" />
+  </WalkableNodes>
+  <EventNodes>
+    <Node id="25" x="5" y="2" eventName="Key" />
+    <Node id="26" x="6" y="2" eventName="Start" />
+    <Node id="36" x="6" y="3" eventName="Start" />
+    <Node id="46" x="6" y="4" eventName="Key" />
+    <Node id="47" x="7" y="4" eventName="End" />
+    <Node id="55" x="5" y="5" eventName="Key" />
+    <Node id="56" x="6" y="5" eventName="Key" />
+  </EventNodes>
+</Root>

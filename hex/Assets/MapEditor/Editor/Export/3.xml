@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root width="10" height="10">
+  <WalkableNodes>
+    <Node id="0" x="0" y="0" />
+    <Node id="10" x="0" y="1" />
+    <Node id="11" x="1" y="1" />
+    <Node id="12" x="2" y="1" />
+    <Node id="13" x="3" y="1" />
+    <Node id="23" x="3" y="2" />
+    <Node id="26" x="6" y="2" />
+    <Node id="27" x="7" y="2" />
+    <Node id="31" x="1" y="3" />
+    <Node id="32" x="2" y="3" />
+    <Node id="33" x="3" y="3" />
+    <Node id="35" x="5" y="3" />
+    <Node id="41" x="1" y="4" />
+    <Node id="44" x="4" y="4" />
+    <Node id="45" x="5" y="4" />
+    <Node id="55" x="5" y="5" />
+    <Node id="66" x="6" y="6" />
+    <Node id="76" x="6" y="7" />
+    <Node id="77" x="7" y="7" />
+    <Node id="88" x="8" y="8" />
+    <Node id="98" x="8" y="9" />
+    <Node id="99" x="9" y="9" />
+  </WalkableNodes>
+  <EventNodes>
+    <Node id="0" x="0" y="0" eventName="Start" />
+    <Node id="27" x="7" y="2" eventName="Reward" />
+    <Node id="41" x="1" y="4" eventName="Key" />
+    <Node id="44" x="4" y="4" eventName="Door" />
+    <Node id="99" x="9" y="9" eventName="End" />
+  </EventNodes>
+</Root>
