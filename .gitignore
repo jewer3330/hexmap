@@ -1,0 +1,7 @@
+hex/Library/
+hex/Logs/
+*.csproj
+hex/Temp/
+hex/obj/
+*.sln
+hex/.vs/
