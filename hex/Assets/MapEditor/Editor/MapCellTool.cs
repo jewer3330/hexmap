@@ -45,12 +45,10 @@ public class MapCellTool : Editor {
         
     }
 
-    public static void Draw(MapCellData data)
+    public static void DrawBrush(MapCellData data)
     {
-        EditorGUILayout.LabelField("id", data.id.ToString());
-        EditorGUILayout.LabelField(string.Format("pos ({0},{1})", data.x.ToString(), data.y.ToString()));
-        
-        data.walkType = (MapCellData.WalkType)EditorGUILayout.EnumPopup("类型", data.walkType);
+        data.walkType = (MapCellData.WalkType)EditorGUILayout.EnumPopup("可走?", data.walkType);
+        data.buildingType = (MapCellData.BuildingType)EditorGUILayout.EnumPopup("建筑?", data.buildingType);
         if (data.buildingType == MapCellData.BuildingType.Building)
             data.eventType = (MapCellData.EventType)EditorGUILayout.EnumPopup("事件类型", data.eventType);
 

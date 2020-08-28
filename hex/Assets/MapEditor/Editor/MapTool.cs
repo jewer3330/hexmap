@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using System;
 using System.Linq;
 using System.Xml;
 using System.IO;
@@ -50,11 +52,12 @@ public class MapTool : EditorWindow
     private Rect topSize => new Rect(0, 0, this.position.width, 20);
     private Rect toolBarSize => new Rect(0, topSize.height, this.position.width, 40);
 
-    private Rect brushSize => new Rect(0, toolBarSize.height + topSize.height, this.position.width, (this.position.height - topSize.height - toolBarSize.height) * 0.5f);
+    private Rect brushSize => new Rect(0, toolBarSize.height + topSize.height, this.position.width, 240);
 
-    private Rect infoSize => new Rect(0, toolBarSize.height + topSize.height + brushSize.height, this.position.width, (this.position.height - topSize.height - toolBarSize.height) * 0.5f);
+    private Rect brushInfoSize => new Rect(0, toolBarSize.height + topSize.height + brushSize.height, this.position.width, (this.position.height - topSize.height - toolBarSize.height - brushSize.height) * 0.5f);
+    private Rect infoSize => new Rect(0, toolBarSize.height + topSize.height + brushSize.height + brushInfoSize.height, this.position.width, (this.position.height - topSize.height - toolBarSize.height - brushSize.height) * 0.5f);
 
-    private string[] tabs = new string[] { "地基", "建筑", "设施" };
+    private string[] tabs = new string[] { "地基", "建筑" };
     private TabView tabview;
     void OnGUIBrush(Rect size)
     {
@@ -113,40 +116,64 @@ public class MapTool : EditorWindow
         }
     }
 
-    
 
+    private bool BrushInfo = true;
+    void OnGUIBrushInfo(Rect size)
+    {
+        GUILayout.BeginArea(size);
+        BrushInfo = EditorGUILayout.BeginFoldoutHeaderGroup(BrushInfo, "BrushInfo");
+        if (BrushInfo)
+        {
+            if (currentSelect)
+            {
+                HexBrush hb = currentSelect.GetComponent<HexBrush>();
+                if (hb)
+                {
+                    MapCellTool.DrawBrush(hb.data);
+                }
+            }
+           
+        }
+        EditorGUILayout.EndFoldoutHeaderGroup();
+        GUILayout.EndArea();
+    }
 
-
+    private bool Info = true;
 
 
     void OnGUIInfo(Rect size)
     {
         GUILayout.BeginArea(size);
-        EditorGUILayout.PrefixLabel ("Info");
-        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-        if (Selection.gameObjects != null)
+        Info = EditorGUILayout.BeginFoldoutHeaderGroup(Info, "Info");
+        if (Info)
         {
-            foreach (var k in Selection.gameObjects)
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+            if (Selection.gameObjects != null)
             {
-                Hex cell = k.gameObject.GetComponent<Hex>();
-                if (cell)
+                foreach (var k in Selection.gameObjects)
                 {
-
-                    MapCellTool.Draw(cell);
-                }
-
-                HexBuilding build = k.gameObject.GetComponent<HexBuilding>();
-                if (build)
-                {
-                    if (build.hex)
+                    Hex cell = k.gameObject.GetComponent<Hex>();
+                    if (cell)
                     {
-                        EditorGUILayout.LabelField("选中了建筑");
-                        MapCellTool.Draw(build.hex);
+
+                        MapCellTool.Draw(cell);
+                    }
+
+                    HexBuilding build = k.gameObject.GetComponent<HexBuilding>();
+                    if (build)
+                    {
+                        if (build.hex)
+                        {
+                            EditorGUILayout.LabelField("选中了建筑");
+                            MapCellTool.Draw(build.hex);
+                        }
                     }
                 }
             }
+            EditorGUILayout.EndScrollView();
         }
-        EditorGUILayout.EndScrollView();
+        EditorGUILayout.EndFoldoutHeaderGroup();
+        
         GUILayout.EndArea();
     }
 
@@ -155,6 +182,7 @@ public class MapTool : EditorWindow
         OnGUIMenu(topSize);
         OnGUIToolbar(toolBarSize);
         OnGUIBrush(brushSize);
+        OnGUIBrushInfo(brushInfoSize);
         OnGUIInfo(infoSize);
         //flag = EditorGUILayout.ObjectField("flagObject", flag, typeof(GameObject), true) as GameObject;
         //draw = EditorGUILayout.ToggleLeft("draw ?", draw);

@@ -28,7 +28,7 @@ public class BrushCreateTool : EditorWindow
         if (data != null)
         {
             data.buildingType = (MapCellData.BuildingType)EditorGUILayout.EnumPopup("笔刷索引",data.buildingType);
-            MapCellTool.Draw(data);
+            MapCellTool.DrawBrush(data);
         }
         if (GUILayout.Button("Create"))
         {
