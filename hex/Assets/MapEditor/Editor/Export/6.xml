@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root width="18" height="18">
+  <WalkableNodes>
+    <Node id="23" x="5" y="1" />
+    <Node id="24" x="6" y="1" />
+    <Node id="31" x="13" y="1" />
+    <Node id="32" x="14" y="1" />
+    <Node id="41" x="5" y="2" />
+    <Node id="47" x="11" y="2" />
+    <Node id="48" x="12" y="2" />
+    <Node id="49" x="13" y="2" />
+    <Node id="51" x="15" y="2" />
+    <Node id="52" x="16" y="2" />
+    <Node id="59" x="5" y="3" />
+    <Node id="64" x="10" y="3" />
+    <Node id="68" x="14" y="3" />
+    <Node id="78" x="6" y="4" />
+    <Node id="81" x="9" y="4" />
+    <Node id="82" x="10" y="4" />
+    <Node id="83" x="11" y="4" />
+    <Node id="84" x="12" y="4" />
+    <Node id="85" x="13" y="4" />
+    <Node id="87" x="15" y="4" />
+    <Node id="88" x="16" y="4" />
+    <Node id="91" x="1" y="5" />
+    <Node id="96" x="6" y="5" />
+    <Node id="97" x="7" y="5" />
+    <Node id="98" x="8" y="5" />
+    <Node id="99" x="9" y="5" />
+    <Node id="101" x="11" y="5" />
+    <Node id="103" x="13" y="5" />
+    <Node id="109" x="1" y="6" />
+    <Node id="114" x="6" y="6" />
+    <Node id="115" x="7" y="6" />
+    <Node id="120" x="12" y="6" />
+    <Node id="122" x="14" y="6" />
+    <Node id="127" x="1" y="7" />
+    <Node id="131" x="5" y="7" />
+    <Node id="133" x="7" y="7" />
+    <Node id="138" x="12" y="7" />
+    <Node id="140" x="14" y="7" />
+    <Node id="142" x="16" y="7" />
+    <Node id="146" x="2" y="8" />
+    <Node id="149" x="5" y="8" />
+    <Node id="152" x="8" y="8" />
+    <Node id="157" x="13" y="8" />
+    <Node id="159" x="15" y="8" />
+    <Node id="160" x="16" y="8" />
+    <Node id="164" x="2" y="9" />
+    <Node id="165" x="3" y="9" />
+    <Node id="166" x="4" y="9" />
+    <Node id="169" x="7" y="9" />
+    <Node id="170" x="8" y="9" />
+    <Node id="171" x="9" y="9" />
+    <Node id="172" x="10" y="9" />
+    <Node id="173" x="11" y="9" />
+    <Node id="176" x="14" y="9" />
+    <Node id="184" x="4" y="10" />
+    <Node id="187" x="7" y="10" />
+    <Node id="189" x="9" y="10" />
+    <Node id="192" x="12" y="10" />
+    <Node id="194" x="14" y="10" />
+    <Node id="204" x="6" y="11" />
+    <Node id="207" x="9" y="11" />
+    <Node id="212" x="14" y="11" />
+    <Node id="222" x="6" y="12" />
+    <Node id="223" x="7" y="12" />
+    <Node id="226" x="10" y="12" />
+    <Node id="228" x="12" y="12" />
+    <Node id="229" x="13" y="12" />
+    <Node id="230" x="14" y="12" />
+    <Node id="239" x="5" y="13" />
+    <Node id="241" x="7" y="13" />
+    <Node id="248" x="14" y="13" />
+    <Node id="250" x="16" y="13" />
+    <Node id="256" x="4" y="14" />
+    <Node id="257" x="5" y="14" />
+    <Node id="260" x="8" y="14" />
+    <Node id="262" x="10" y="14" />
+    <Node id="267" x="15" y="14" />
+    <Node id="268" x="16" y="14" />
+    <Node id="273" x="3" y="15" />
+    <Node id="278" x="8" y="15" />
+    <Node id="279" x="9" y="15" />
+    <Node id="285" x="15" y="15" />
+  </WalkableNodes>
+  <EventNodes>
+    <Node id="24" x="6" y="1" eventId="5" />
+    <Node id="52" x="16" y="2" eventId="5" />
+    <Node id="82" x="10" y="4" eventId="3" />
+    <Node id="88" x="16" y="4" eventId="4" />
+    <Node id="91" x="1" y="5" eventId="2" />
+    <Node id="131" x="5" y="7" eventId="3" />
+    <Node id="140" x="14" y="7" eventId="3" />
+    <Node id="142" x="16" y="7" eventId="1" />
+    <Node id="157" x="13" y="8" eventId="5" />
+    <Node id="192" x="12" y="10" eventId="4" />
+    <Node id="223" x="7" y="12" eventId="3" />
+    <Node id="229" x="13" y="12" eventId="4" />
+    <Node id="250" x="16" y="13" eventId="4" />
+    <Node id="262" x="10" y="14" eventId="5" />
+    <Node id="273" x="3" y="15" eventId="4" />
+  </EventNodes>
+</Root>

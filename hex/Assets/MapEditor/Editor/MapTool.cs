@@ -7,19 +7,20 @@ using System.Linq;
 using System.Xml;
 using System.IO;
 //using SuperBoBo;
-
-public class MapTool : EditorWindow
+public class MapTool : SceneView
 {
     static string mapSavePath = "Assets/MapEditor/Editor/Data";
     static string exportPath = "Assets/MapEditor/Editor/Export";
-    [MenuItem("Tools/地图编辑器")]
+    [MenuItem("Tools/Medusa Editor &m")]
     static void Init()
     {
-        MapTool window = (MapTool)EditorWindow.GetWindow(typeof(MapTool));
+        MapTool window = (MapTool)GetWindow(typeof(MapTool));
         window.Show();
-        SceneView.duringSceneGui += window.OnSceneFunc;
+        
+        //window.titleContent = new GUIContent("MapTool");
+        duringSceneGui += window.OnScene;
 
-        window.minSize = new Vector2(300, 400);
+        window.minSize = new Vector2(1440, 900);
         window.Start();
         
     }
@@ -31,12 +32,49 @@ public class MapTool : EditorWindow
        
     }
 
-    private void OnSceneFunc(SceneView sceneView)
+    private void OnScene(SceneView sceneView)
     {
         Repaint();
+        if (Event.current != null)
+        {
+            if (Event.current.keyCode == KeyCode.Delete)
+            {
+
+                var hexBuilding = Selection.GetFiltered<HexBuilding>(SelectionMode.TopLevel);
+                foreach (var k in hexBuilding)
+                {
+                    OnDeleteBuilding(k);
+                }
+                var hex = Selection.GetFiltered<Hex>(SelectionMode.TopLevel);
+                foreach(var k in hex)
+                {
+                    OnDeleteHex(k);
+                }
+            }
+        }
     }
 
+    private void OnDeleteBuilding(HexBuilding building)
+    {
+        if (building.hex)
+        {
+            building.hex.data.buildingType = MapCellData.BuildingType.Floor;
+            building.hex.data.buildingRes = null;
+            building.hex.data.eventType = MapCellData.EventType.None;
+        }
+    }
 
+    private void OnDeleteHex(Hex hex)
+    {
+        if (map.cells[hex.data.id] != null)
+        {
+            map.cells[hex.data.id] = null;
+        }
+        if (map.hexs[hex.data.id])
+        {
+            map.hexs[hex.data.id] = null;
+        }
+    }
 
 
 
@@ -49,13 +87,17 @@ public class MapTool : EditorWindow
     private bool draw;
 
     private MapData map;
-    private Rect topSize => new Rect(0, 0, this.position.width, 20);
-    private Rect toolBarSize => new Rect(0, topSize.height, this.position.width, 40);
+    private int start = 0;
+    private int width => 500;
+    private int startY = 0;
+    private Rect view => new Rect(start, 20, width, this.position.height);
+    private Rect topSize => new Rect(start, startY, width, 20);
+    private Rect toolBarSize => new Rect(start, startY + topSize.height, width, 40);
 
-    private Rect brushSize => new Rect(0, toolBarSize.height + topSize.height, this.position.width, 240);
+    private Rect brushSize => new Rect(start, startY + toolBarSize.height + topSize.height, width, 240);
 
-    private Rect brushInfoSize => new Rect(0, toolBarSize.height + topSize.height + brushSize.height, this.position.width, (this.position.height - topSize.height - toolBarSize.height - brushSize.height) * 0.5f);
-    private Rect infoSize => new Rect(0, toolBarSize.height + topSize.height + brushSize.height + brushInfoSize.height, this.position.width, (this.position.height - topSize.height - toolBarSize.height - brushSize.height) * 0.5f);
+    private Rect brushInfoSize => new Rect(start, startY + toolBarSize.height + topSize.height + brushSize.height, width, (this.position.height - topSize.height - toolBarSize.height - brushSize.height) * 0.5f);
+    private Rect infoSize => new Rect(start, startY + toolBarSize.height + topSize.height + brushSize.height + brushInfoSize.height, width, (this.position.height - topSize.height - toolBarSize.height - brushSize.height) * 0.5f);
 
     private string[] tabs = new string[] { "地基", "建筑" };
     private TabView tabview;
@@ -108,7 +150,7 @@ public class MapTool : EditorWindow
             currentTag = type;
         }
         UnityEngine.GameObject[] objs = null;
-        var s =  GUILayout.SelectionGrid(selectBrushBase, previewBases(out objs, type), 4);
+        var s =  GUILayout.SelectionGrid(selectBrushBase, previewBases(out objs, type), 3);
         if (s != selectBrushBase)
         {
             selectBrushBase = s;
@@ -164,7 +206,9 @@ public class MapTool : EditorWindow
                     {
                         if (build.hex)
                         {
+                            GUI.color = Color.red;
                             EditorGUILayout.LabelField("选中了建筑");
+                            GUI.color = Color.white;
                             MapCellTool.Draw(build.hex);
                         }
                     }
@@ -177,8 +221,12 @@ public class MapTool : EditorWindow
         GUILayout.EndArea();
     }
 
+    
+
     private void OnGUI()
     {
+        base.OnGUI();
+        EditorGUI.DrawRect(view, Color.gray *0.9f);
         OnGUIMenu(topSize);
         OnGUIToolbar(toolBarSize);
         OnGUIBrush(brushSize);
@@ -194,30 +242,27 @@ public class MapTool : EditorWindow
 
     }
 
-    Menu fileMenu;
-    Menu editorMenu;
+   
+
+    //  %表示ctrl     #表示shift    &表示alt  
+    public override void AddItemsToMenu(GenericMenu menu)
+    {
+       
+        menu.AddItem(new GUIContent("File/Save"), false, Save);
+        menu.AddItem(new GUIContent("File/Open"), false, Load);
+
+        menu.AddItem(new GUIContent("Edit/New"), false, () => { MapCreateTool.Open(this); });
+        menu.AddItem(new GUIContent("Edit/Delete"), false, Clean);
+        menu.AddItem(new GUIContent("Edit/NewBrush"), false, NewBrush);
+        menu.AddItem(new GUIContent("Edit/Export"), false, Export);
+        base.AddItemsToMenu(menu);
+    }
 
     private void OnGUIMenu(Rect size)
     {
         GUILayout.BeginArea(size);
         GUILayout.BeginHorizontal();
-        int width = 80;
-        if (fileMenu == null)
-        {
-            fileMenu = new Menu("File", new Rect(size.x, 0, width, size.height));
-            fileMenu.AddItem("Save", Save);
-            fileMenu.AddItem("Open", Load);
-        }
-        fileMenu.OnGUI();
-        if (editorMenu == null)
-        {
-            editorMenu = new Menu("Edit", new Rect(size.x + width, 0, width, size.height));
-            editorMenu.AddItem("Create", ()=> { MapCreateTool.Open(this); });
-            editorMenu.AddItem("Delete", Clean);
-            editorMenu.AddItem("NewBrush", NewBrush);
-            editorMenu.AddItem("Export", Export);
-        }
-        editorMenu.OnGUI();
+        
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
     }
@@ -272,6 +317,7 @@ public class MapTool : EditorWindow
         string path = EditorUtility.SaveFilePanel("保存", exportPath,"1" ,"xml");
         var name = Path.GetFileNameWithoutExtension(path);
         Export(name);
+        
     }
 
     public void Export(string fileName)
@@ -297,7 +343,7 @@ public class MapTool : EditorWindow
                 SerializeWalkalbeNode(walkableRoot, k, e);
             }
             
-            if(k.eventType != MapCellData.EventType.None)
+            if(k.eventType != MapCellData.EventType.None && k.buildingType == MapCellData.BuildingType.Building)
             {
                 XmlElement e = xmldoc.CreateElement("Node");
                 SerializeEventNode(eventRoot, k, e);
@@ -305,10 +351,46 @@ public class MapTool : EditorWindow
         }
 
         xmldoc.Save(Application.dataPath + $"/MapEditor/Editor/Export/{fileName}.xml");
-
+        ExportLua(fileName);
         AssetDatabase.Refresh();
     }
 
+    public void ExportLua(string fileName)
+    {
+        string path = Application.dataPath + $"/LuaScripts/src/Dungeon/Dungeon{fileName}.lua";
+        using (FileStream fs = new FileStream(path,FileMode.Create))
+        {
+            using (StreamWriter sw = new StreamWriter(fs))
+            {
+                sw.WriteLine("-- auto created by Medusa editor DO NOT motify");
+                sw.WriteLine($"-- created time {DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}");
+                sw.WriteLine("local data = {");
+
+                sw.WriteLine($"width = {mapWidth},");
+                sw.WriteLine($"height = {mapHeight},");
+                sw.WriteLine("walkableNodes = {");
+
+                foreach (var k in map.cells)
+                {
+                    sw.Write($"[{k.id}] = {{");
+                    sw.Write($"id = {k.id},");
+                    sw.Write($"x = {k.x},");
+                    sw.Write($"y = {k.y},");
+                    sw.Write($"walkType = '{k.walkType}',");
+                    sw.Write($"buildingType = '{k.buildingType}',");
+                    sw.Write($"res = '{k.res}',");
+                    sw.Write($"buildingRes = '{k.buildingRes}',");
+                    sw.Write($"eventId = {(int)k.eventType},");
+                    sw.WriteLine("},");
+                }
+
+                sw.WriteLine("}");
+                sw.WriteLine("}");
+                sw.WriteLine("return data");
+            }
+        }
+        AssetDatabase.Refresh();
+    }
  
 
     public void SerializeWalkalbeNode(XmlNode root,MapCellData data, XmlElement element)
@@ -328,27 +410,7 @@ public class MapTool : EditorWindow
         element.SetAttribute("id", data.id.ToString());
         element.SetAttribute("x", data.x.ToString());
         element.SetAttribute("y", data.y.ToString());
-        if (data.eventType == MapCellData.EventType.Door)
-        {
-            element.SetAttribute("eventName", data.eventType.ToString());
-        }
-        else if (data.eventType == MapCellData.EventType.Key)
-        {
-            element.SetAttribute("eventName", data.eventType.ToString());
-        }
-        else if (data.eventType == MapCellData.EventType.Reward)
-        {
-            element.SetAttribute("eventName", data.eventType.ToString());
-        }
-        else if (data.eventType == MapCellData.EventType.Start)
-        {
-            element.SetAttribute("eventName", data.eventType.ToString());
-        }
-        else if (data.eventType == MapCellData.EventType.End)
-        {
-            element.SetAttribute("eventName", data.eventType.ToString());
-        }
-
+        element.SetAttribute("eventId", ((int)data.eventType).ToString());
         root.AppendChild(element);
     }
 
@@ -444,7 +506,9 @@ public class MapTool : EditorWindow
             return;
         }
         MapData newMap = ScriptableObject.CreateInstance<MapData>();
-        newMap.cells = this.map.cells.Select(r=>r.Clone()).ToArray();
+        newMap.cells = this.map.cells
+            .Where(r=> r != null)
+            .Select(r=>r.Clone()).ToArray();
         newMap.hexs = null;
         newMap.mapHeight = mapHeight;
         newMap.mapWidth = mapWidth;

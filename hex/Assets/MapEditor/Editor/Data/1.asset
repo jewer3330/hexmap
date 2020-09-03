@@ -12,606 +12,907 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8df81c930e2ef4963bbe45a7fd7af799, type: 3}
   m_Name: 1
   m_EditorClassIdentifier: 
+  hexs: []
   cells:
   - x: 0
     y: 0
     h: 0
     id: 0
-    res: Assets/MapEditor/BrushPrefabs/start.prefab
-    type: 2
+    res: Assets/MapEditor/BrushPrefabs/walkable.prefab
+    buildingRes: Assets/MapEditor/BrushPrefabs/end.prefab
+    walkType: 1
+    eventType: 2
+    buildingType: 1
   - x: 1
     y: 0
     h: 0
     id: 1
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 2
     y: 0
     h: 0
     id: 2
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 3
     y: 0
     h: 0
     id: 3
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 4
     y: 0
     h: 0
     id: 4
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 5
     y: 0
     h: 0
     id: 5
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 6
     y: 0
     h: 0
     id: 6
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 7
     y: 0
     h: 0
     id: 7
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 8
     y: 0
     h: 0
     id: 8
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 9
     y: 0
     h: 0
     id: 9
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 0
     y: 1
     h: 0
     id: 10
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 1
     y: 1
     h: 0
     id: 11
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 2
     y: 1
     h: 0
     id: 12
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 3
     y: 1
     h: 0
     id: 13
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 4
     y: 1
     h: 0
     id: 14
-    res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    res: Assets/MapEditor/BrushPrefabs/walkable.prefab
+    buildingRes: Assets/MapEditor/BrushPrefabs/key.prefab
+    walkType: 1
+    eventType: 4
+    buildingType: 1
   - x: 5
     y: 1
     h: 0
     id: 15
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 6
     y: 1
     h: 0
     id: 16
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 7
     y: 1
     h: 0
     id: 17
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 8
     y: 1
     h: 0
     id: 18
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 9
     y: 1
     h: 0
     id: 19
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 0
     y: 2
     h: 0
     id: 20
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 1
     y: 2
     h: 0
     id: 21
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 2
     y: 2
     h: 0
     id: 22
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 3
     y: 2
     h: 0
     id: 23
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 4
     y: 2
     h: 0
     id: 24
-    res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    res: Assets/MapEditor/BrushPrefabs/walkable.prefab
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 5
     y: 2
     h: 0
     id: 25
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 6
     y: 2
     h: 0
     id: 26
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 7
     y: 2
     h: 0
     id: 27
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 8
     y: 2
     h: 0
     id: 28
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 9
     y: 2
     h: 0
     id: 29
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 0
     y: 3
     h: 0
     id: 30
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 1
     y: 3
     h: 0
     id: 31
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 2
     y: 3
     h: 0
     id: 32
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 3
     y: 3
     h: 0
     id: 33
-    res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    res: Assets/MapEditor/BrushPrefabs/walkable.prefab
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 4
     y: 3
     h: 0
     id: 34
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 5
     y: 3
     h: 0
     id: 35
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 6
     y: 3
     h: 0
     id: 36
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 7
     y: 3
     h: 0
     id: 37
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 8
     y: 3
     h: 0
     id: 38
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 9
     y: 3
     h: 0
     id: 39
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 0
     y: 4
     h: 0
     id: 40
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 1
     y: 4
     h: 0
     id: 41
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 2
     y: 4
     h: 0
     id: 42
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 3
     y: 4
     h: 0
     id: 43
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: Assets/MapEditor/BrushPrefabs/door.prefab
+    walkType: 1
+    eventType: 3
+    buildingType: 1
   - x: 4
     y: 4
     h: 0
     id: 44
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 5
     y: 4
     h: 0
     id: 45
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 6
     y: 4
     h: 0
     id: 46
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 7
     y: 4
     h: 0
     id: 47
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 8
     y: 4
     h: 0
     id: 48
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 9
     y: 4
     h: 0
     id: 49
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 0
     y: 5
     h: 0
     id: 50
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 1
     y: 5
     h: 0
     id: 51
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 2
     y: 5
     h: 0
     id: 52
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 3
     y: 5
     h: 0
     id: 53
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 4
     y: 5
     h: 0
     id: 54
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 5
     y: 5
     h: 0
     id: 55
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 6
     y: 5
     h: 0
     id: 56
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 7
     y: 5
     h: 0
     id: 57
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 8
     y: 5
     h: 0
     id: 58
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 9
     y: 5
     h: 0
     id: 59
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 0
     y: 6
     h: 0
     id: 60
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 1
     y: 6
     h: 0
     id: 61
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 2
     y: 6
     h: 0
     id: 62
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 3
     y: 6
     h: 0
     id: 63
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 4
     y: 6
     h: 0
     id: 64
-    res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    res: Assets/MapEditor/BrushPrefabs/walkable.prefab
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 5
     y: 6
     h: 0
     id: 65
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 6
     y: 6
     h: 0
     id: 66
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 7
     y: 6
     h: 0
     id: 67
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 8
     y: 6
     h: 0
     id: 68
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 9
     y: 6
     h: 0
     id: 69
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 0
     y: 7
     h: 0
     id: 70
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 1
     y: 7
     h: 0
     id: 71
-    res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    res: Assets/MapEditor/BrushPrefabs/walkable.prefab
+    buildingRes: Assets/MapEditor/BrushPrefabs/reward.prefab
+    walkType: 1
+    eventType: 5
+    buildingType: 1
   - x: 2
     y: 7
     h: 0
     id: 72
-    res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    res: Assets/MapEditor/BrushPrefabs/walkable.prefab
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 3
     y: 7
     h: 0
     id: 73
-    res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    res: Assets/MapEditor/BrushPrefabs/walkable.prefab
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 4
     y: 7
     h: 0
     id: 74
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 5
     y: 7
     h: 0
     id: 75
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 6
     y: 7
     h: 0
     id: 76
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 7
     y: 7
     h: 0
     id: 77
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 8
     y: 7
     h: 0
     id: 78
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 9
     y: 7
     h: 0
     id: 79
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 0
     y: 8
     h: 0
     id: 80
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 1
     y: 8
     h: 0
     id: 81
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 2
     y: 8
     h: 0
     id: 82
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 3
     y: 8
     h: 0
     id: 83
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 4
     y: 8
     h: 0
     id: 84
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 5
     y: 8
     h: 0
     id: 85
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 6
     y: 8
     h: 0
     id: 86
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 7
     y: 8
     h: 0
     id: 87
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 8
     y: 8
     h: 0
     id: 88
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 9
     y: 8
     h: 0
     id: 89
     res: Assets/MapEditor/BrushPrefabs/walkable.prefab
-    type: 1
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
   - x: 0
     y: 9
     h: 0
     id: 90
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 1
     y: 9
     h: 0
     id: 91
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 2
     y: 9
     h: 0
     id: 92
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 3
     y: 9
     h: 0
     id: 93
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 4
     y: 9
     h: 0
     id: 94
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 5
     y: 9
     h: 0
     id: 95
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 6
     y: 9
     h: 0
     id: 96
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 7
     y: 9
     h: 0
     id: 97
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 8
     y: 9
     h: 0
     id: 98
     res: Assets/MapEditor/BrushPrefabs/unwalkable.prefab
-    type: 0
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
   - x: 9
     y: 9
     h: 0
     id: 99
-    res: Assets/MapEditor/BrushPrefabs/end.prefab
-    type: 3
+    res: Assets/MapEditor/BrushPrefabs/walkable.prefab
+    buildingRes: Assets/MapEditor/BrushPrefabs/start.prefab
+    walkType: 1
+    eventType: 1
+    buildingType: 1
   mapWidth: 10
   mapHeight: 10

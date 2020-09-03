@@ -24,7 +24,7 @@ public class MapCreateTool : EditorWindow
 
         defaultBrush =(HexBrush) EditorGUILayout.ObjectField(defaultBrush, typeof(HexBrush), false);
         GameObject[] objs = null;
-        var s = GUILayout.SelectionGrid(selectBrushBase, window.previewBases(out objs,0), 4);
+        var s = GUILayout.SelectionGrid(selectBrushBase, window.previewBases(out objs,0), 3);
         if (defaultBrush == null)
         {
             defaultBrush = (objs[0] as GameObject).GetComponent<HexBrush>();

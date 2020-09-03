@@ -179,34 +179,47 @@ public class World : MonoBehaviour {
 
 
 
+    //1.把起始格添加到开启列表。
+    //2.重复如下的工作：
+    //   a) 寻找开启列表中F值最低的格子。我们称它为当前格。
+    //   b) 把它切换到关闭列表。
+    //   c) 对相邻的6格中的每一个？
+    //       * 如果它不可通过或者已经在关闭列表中，略过它。反之如下。
+    //       * 如果它不在开启列表中，把它添加进去。把当前格作为这一格的父节点。记录这一格的F,G,和H值。
+    //       * 如果它已经在开启列表中，用G值为参考检查新的路径是否更好。更低的G值意味着更好的路径。如果是这样，就把这一格的父节点改成当前格，
+    //           并且重新计算这一格的G和F值。如果你保持你的开启列表按F值排序，改变之后你可能需要重新对开启列表排序。
 
+    //   d) 停止，当你
+    //       * 把目标格添加进了关闭列表(注解)，这时候路径被找到，或者
+    //       * 没有找到目标格，开启列表已经空了。这时候，路径不存在。
+    //3.保存路径。从目标格开始，沿着每一格的父节点移动直到回到起始格。这就是你的路径。
 
-
+    public static int count;
 
     public static List<Hex> searchRoute(Hex thisHexagon, Hex targetHexagon)
     {
+        count = 0;
         Hex nowHexagon = thisHexagon;
         //nowHexagon.reset();
-
+        nowHexagon.setgValue(0);//fix
+        nowHexagon.sethValue(0);
+        nowHexagon.setFatherHexagon(null);
         openList.Add(nowHexagon);
         bool finded = false;
         while (!finded)
         {
             openList.Remove(nowHexagon);//将当前节点从openList中移除  
             closeList.Add(nowHexagon);//将当前节点添加到关闭列表中  
+            if (closeList.Contains(targetHexagon))
+            {
+                finded = true;
+            }
             Hex[] neighbors = nowHexagon.neighbors;//获取当前六边形的相邻六边形  
             //print("当前相邻节点数----" + neighbors.size());  
             foreach (Hex neighbor in neighbors)
             {
                 if (neighbor == null) continue;
-
-                if (neighbor == targetHexagon)
-                {//找到目标节点  
-                    //System.out.println("找到目标点");  
-                    finded = true;
-                    neighbor.setFatherHexagon(nowHexagon);
-                }
-                if (closeList.Contains(neighbor) )//|| !neighbor.canPass())
+                if (closeList.Contains(neighbor)  || !neighbor.canPass())
                 {//在关闭列表里  
                     //print("无法通过或者已在关闭列表");  
                     continue;
@@ -218,9 +231,12 @@ public class World : MonoBehaviour {
                     float assueGValue = neighbor.computeGValue(nowHexagon) + nowHexagon.getgValue();//计算假设从当前节点进入，该节点的g估值  
                     if (assueGValue < neighbor.getgValue())
                     {//假设的g估值小于于原来的g估值  
-                        openList.Remove(neighbor);//重新排序该节点在openList的位置  
+                        //openList.Remove(neighbor);//重新排序该节点在openList的位置  
                         neighbor.setgValue(assueGValue);//从新设置g估值  
-                        openList.Add(neighbor);//从新排序openList。  
+                        neighbor.setFatherHexagon(nowHexagon);
+                        neighbor.count = count++;
+                        openList.Sort((l, r) => l.getFValue().CompareTo(r.getFValue()));
+                        //openList.Add(neighbor);//从新排序openList。  
                     }
                 }
                 else
@@ -230,6 +246,7 @@ public class World : MonoBehaviour {
                     neighbor.setgValue(neighbor.computeGValue(nowHexagon) + nowHexagon.getgValue());//计算该节点的g估值（到当前节点的g估值加上当前节点的g估值）  
                     openList.Add(neighbor);//添加到开启列表里  
                     neighbor.setFatherHexagon(nowHexagon);//将当前节点设置为该节点的父节点  
+                    neighbor.count = count++;
                 }
             }
 
@@ -240,6 +257,7 @@ public class World : MonoBehaviour {
             }
             else
             {
+                openList.Sort((l, r) => l.getFValue().CompareTo(r.getFValue()));
                 nowHexagon = openList[0];//得到f估值最低的节点设置为当前节点  
             }
         }
@@ -269,85 +287,85 @@ public class World : MonoBehaviour {
     public static List<Hex> openList = new List<Hex>();
     public static List<Hex> closeList = new List<Hex>();
 
-    //通过无阻挡寻路确定两个六边形的距离
-    public static int GetRouteDis(Hex thisHexagon, Hex targetHexagon)
-    {
-        Hex nowHexagon = thisHexagon;
-        //nowHexagon.reset();
+    ////通过无阻挡寻路确定两个六边形的距离
+    //public static int GetRouteDis(Hex thisHexagon, Hex targetHexagon)
+    //{
+    //    Hex nowHexagon = thisHexagon;
+    //    //nowHexagon.reset();
 
-        openList.Add(nowHexagon);
-        bool finded = false;
-        while (!finded)
-        {
-            openList.Remove(nowHexagon);//将当前节点从openList中移除  
-            closeList.Add(nowHexagon);//将当前节点添加到关闭列表中  
-            Hex[] neighbors = nowHexagon.neighbors;//获取当前六边形的相邻六边形  
-            //print("当前相邻节点数----" + neighbors.size());  
-            foreach (Hex neighbor in neighbors)
-            {
-                if (neighbor == null) continue;
+    //    openList.Add(nowHexagon);
+    //    bool finded = false;
+    //    while (!finded)
+    //    {
+    //        openList.Remove(nowHexagon);//将当前节点从openList中移除  
+    //        closeList.Add(nowHexagon);//将当前节点添加到关闭列表中  
+    //        Hex[] neighbors = nowHexagon.neighbors;//获取当前六边形的相邻六边形  
+    //        //print("当前相邻节点数----" + neighbors.size());  
+    //        foreach (Hex neighbor in neighbors)
+    //        {
+    //            if (neighbor == null) continue;
 
-                if (neighbor == targetHexagon)
-                {//找到目标节点  
-                    //System.out.println("找到目标点");  
-                    finded = true;
-                    neighbor.setFatherHexagon(nowHexagon);
-                }
-                if (closeList.Contains(neighbor))
-                {//在关闭列表里  
-                    //System.out.println("无法通过或者已在关闭列表");  
-                    continue;
-                }
+    //            if (neighbor == targetHexagon)
+    //            {//找到目标节点  
+    //                //System.out.println("找到目标点");  
+    //                finded = true;
+    //                neighbor.setFatherHexagon(nowHexagon);
+    //            }
+    //            if (closeList.Contains(neighbor))
+    //            {//在关闭列表里  
+    //                //System.out.println("无法通过或者已在关闭列表");  
+    //                continue;
+    //            }
 
-                if (openList.Contains(neighbor))
-                {//该节点已经在开启列表里  
-                    //System.out.println("已在开启列表，判断是否更改父节点");  
-                    float assueGValue = neighbor.computeGValue(nowHexagon) + nowHexagon.getgValue();//计算假设从当前节点进入，该节点的g估值  
-                    if (assueGValue < neighbor.getgValue())
-                    {//假设的g估值小于于原来的g估值  
-                        openList.Remove(neighbor);//重新排序该节点在openList的位置  
-                        neighbor.setgValue(assueGValue);//从新设置g估值  
-                        openList.Add(neighbor);//从新排序openList。  
-                    }
-                }
-                else
-                {//没有在开启列表里  
-                    //System.out.println("不在开启列表，添加");  
-                    neighbor.sethValue(neighbor.computeHValue(targetHexagon));//计算好他的h估值  
-                    neighbor.setgValue(neighbor.computeGValue(nowHexagon) + nowHexagon.getgValue());//计算该节点的g估值（到当前节点的g估值加上当前节点的g估值）  
-                    openList.Add(neighbor);//添加到开启列表里  
-                    neighbor.setFatherHexagon(nowHexagon);//将当前节点设置为该节点的父节点  
-                }
-            }
+    //            if (openList.Contains(neighbor))
+    //            {//该节点已经在开启列表里  
+    //                //System.out.println("已在开启列表，判断是否更改父节点");  
+    //                float assueGValue = neighbor.computeGValue(nowHexagon) + nowHexagon.getgValue();//计算假设从当前节点进入，该节点的g估值  
+    //                if (assueGValue < neighbor.getgValue())
+    //                {//假设的g估值小于于原来的g估值  
+    //                    openList.Remove(neighbor);//重新排序该节点在openList的位置  
+    //                    neighbor.setgValue(assueGValue);//从新设置g估值  
+    //                    openList.Add(neighbor);//从新排序openList。  
+    //                }
+    //            }
+    //            else
+    //            {//没有在开启列表里  
+    //                //System.out.println("不在开启列表，添加");  
+    //                neighbor.sethValue(neighbor.computeHValue(targetHexagon));//计算好他的h估值  
+    //                neighbor.setgValue(neighbor.computeGValue(nowHexagon) + nowHexagon.getgValue());//计算该节点的g估值（到当前节点的g估值加上当前节点的g估值）  
+    //                openList.Add(neighbor);//添加到开启列表里  
+    //                neighbor.setFatherHexagon(nowHexagon);//将当前节点设置为该节点的父节点  
+    //            }
+    //        }
 
-            if (openList.Count <= 0)
-            {
-                //System.out.println("无法到达该目标");  
-                break;
-            }
-            else
-            {
-                nowHexagon = openList[0];//得到f估值最低的节点设置为当前节点  
-            }
-        }
-        openList.Clear();
-        closeList.Clear();
+    //        if (openList.Count <= 0)
+    //        {
+    //            //System.out.println("无法到达该目标");  
+    //            break;
+    //        }
+    //        else
+    //        {
+    //            nowHexagon = openList[0];//得到f估值最低的节点设置为当前节点  
+    //        }
+    //    }
+    //    openList.Clear();
+    //    closeList.Clear();
 
-        List<Hex> route = new List<Hex>();
-        if (finded)
-        {//找到后将路线存入路线集合  
-            Hex hex = targetHexagon;
-            while (hex != thisHexagon)
-            {
-                route.Add(hex);//将节点添加到路径列表里  
+    //    List<Hex> route = new List<Hex>();
+    //    if (finded)
+    //    {//找到后将路线存入路线集合  
+    //        Hex hex = targetHexagon;
+    //        while (hex != thisHexagon)
+    //        {
+    //            route.Add(hex);//将节点添加到路径列表里  
 
-                Hex fatherHex = hex.getFatherHexagon();//从目标节点开始搜寻父节点就是所要的路线  
-                hex = fatherHex;
-            }
-            route.Add(hex);
+    //            Hex fatherHex = hex.getFatherHexagon();//从目标节点开始搜寻父节点就是所要的路线  
+    //            hex = fatherHex;
+    //        }
+    //        route.Add(hex);
 
 
-        }
-        return route.Count - 1;
-    }
+    //    }
+    //    return route.Count - 1;
+    //}
 }

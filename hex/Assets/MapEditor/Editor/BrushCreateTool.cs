@@ -21,9 +21,9 @@ public class BrushCreateTool : EditorWindow
 
     private void OnGUI()
     {
-        go = (GameObject)EditorGUILayout.ObjectField(go, typeof(GameObject),false);
+        go = (GameObject)EditorGUILayout.ObjectField("画笔模型",go, typeof(GameObject),false);
         
-        brushName = EditorGUILayout.TextField(brushName);
+        brushName = EditorGUILayout.TextField("画笔名称",brushName);
 
         if (data != null)
         {

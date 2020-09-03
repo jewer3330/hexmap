@@ -1,23 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 /// <summary>
 /// Class Hold Map Cell Data
 /// </summary>
 public class Hex : MonoBehaviour 
 {
-    float gValue = 999f;
-    float hValue = 999f;
+    public float gValue = 999f;
+    public float hValue = 999f;
     Hex father;
     public int _dir;
     public float yRotation = -1;
-    public Vector2 HexPosition;
+    public Vector2 HexPosition
+    {
+        set
+        {
+            data.x = (int)value.x;
+            data.y = (int)value.y;
+        }
+        get
+        {
+            return  new Vector2(data.x, data.y);
+        }
+    }
     public HexModel HexModel { get; set; }
  
     public Hex[] neighbors = new Hex[6];
     public Hex linkedHex;
     
-	public MapCellData data;
+	public MapCellData data = new MapCellData();
     public int dir
     {
         set
@@ -40,6 +52,10 @@ public class Hex : MonoBehaviour
         //hex.renderer.material.mainTexture = Resources.Load("textures/hex") as Texture2D;
     }
 
+    public void Link(int idx, Hex hex)
+    {
+        neighbors[idx] = hex;
+    }
 
     void Link(int idx, World world, Vector2 offset)
     {
@@ -83,11 +99,32 @@ public class Hex : MonoBehaviour
 	
 	}
 
+    private void OnDrawGizmosSelected()
+    {
+#if UNITY_EDITOR
+        UnityEditor.Handles.BeginGUI();
+        UnityEditor.Handles.Label(transform.position, " g -> " + gValue);
+        UnityEditor.Handles.Label(transform.position + Vector3.up, " h -> " + hValue);
+        UnityEditor.Handles.Label(transform.position + Vector3.up * 2, " f -> " + getFValue());
+        UnityEditor.Handles.Label(transform.position + Vector3.up * 3, " c -> " + count);
+        UnityEditor.Handles.EndGUI();
+        if (father)
+        {
+            UnityEditor.Handles.DrawLine(transform.position, father.transform.position);
+            UnityEditor.Handles.Label(father.transform.position, "head");
+        }
+#endif
+    }
+
     private void OnDrawGizmos()
     {
         if (yRotation > 0)
             Gizmos.DrawLine(transform.position, transform.position + Quaternion.Euler(0f, yRotation, 0f) * transform.forward * 2f);
+
     }
+    /// <summary>
+    /// 移动到邻近格子产生的消耗，越大表示阻挡
+    /// </summary>
     public float cost = 1f;
 
     public float computeGValue(Hex hex)
@@ -97,7 +134,7 @@ public class Hex : MonoBehaviour
 
     public void setgValue(float v)
     {
-        gValue = v * cost;
+        gValue = v;
     }
 
     public float getgValue()
@@ -117,7 +154,7 @@ public class Hex : MonoBehaviour
 
     public float computeHValue(Hex hex)
     {
-        return Vector3.Distance(transform.position, hex.transform.position)*cost;
+        return Vector3.Distance(transform.position, hex.transform.position);
     }
 
     public void setFatherHexagon(Hex f)
@@ -128,5 +165,17 @@ public class Hex : MonoBehaviour
     public Hex getFatherHexagon()
     {
         return father;
+    }
+
+    public float getFValue()
+    {
+        return gValue + hValue;
+    }
+
+    public int count;
+
+    public bool canPass()
+    {
+        return data.walkType == MapCellData.WalkType.Walkable;
     }
 }
