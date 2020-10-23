@@ -59,8 +59,8 @@ public class MapTool : SceneView
         if (building.hex)
         {
             building.hex.data.buildingType = MapCellData.BuildingType.Floor;
-            building.hex.data.buildingRes = null;
-            building.hex.data.eventType = MapCellData.EventType.None;
+            building.hex.data.buildingRes = string.Empty;
+            //building.hex.data.eventType = MapCellData.EventType.无;
         }
     }
 
@@ -91,11 +91,14 @@ public class MapTool : SceneView
     private int width => 500;
     private int startY = 0;
     private Rect view => new Rect(start, 20, width, this.position.height);
+
+    private Rect viewRight => new Rect(view.width, 20, this.position.width - view.width, this.position.height);
     private Rect topSize => new Rect(start, startY, width, 20);
     private Rect toolBarSize => new Rect(start, startY + topSize.height, width, 40);
 
-    private Rect brushSize => new Rect(start, startY + toolBarSize.height + topSize.height, width, 240);
+    private Rect brushSize => new Rect(start, startY + toolBarSize.height + topSize.height, width, 500);
 
+    private Rect layerSize => new Rect(width, 20, 300, 360);
     private Rect brushInfoSize => new Rect(start, startY + toolBarSize.height + topSize.height + brushSize.height, width, (this.position.height - topSize.height - toolBarSize.height - brushSize.height) * 0.5f);
     private Rect infoSize => new Rect(start, startY + toolBarSize.height + topSize.height + brushSize.height + brushInfoSize.height, width, (this.position.height - topSize.height - toolBarSize.height - brushSize.height) * 0.5f);
 
@@ -108,7 +111,12 @@ public class MapTool : SceneView
         EditorGUILayout.LabelField(string.Format("Name:{0},{1} x {2}", mapName, mapWidth, mapHeight));
         EditorGUILayout.ObjectField(map, typeof(MapData), false);
         GUILayout.EndHorizontal();
-        draw = EditorGUILayout.ToggleLeft("绘制", draw);
+        bool ret = EditorGUILayout.ToggleLeft("绘制", draw, fontStyle,GUILayout.Width(80),GUILayout.Height(50));
+        if (ret != draw)
+        {
+            draw = ret;
+            Selection.objects = null;
+        }
         if (tabview == null)
         {
             tabview = new TabView(tabs, size);
@@ -122,10 +130,15 @@ public class MapTool : SceneView
 
     private int selectBrushBase = -1;
 
-    private const string brashPath = "Assets/MapEditor/BrushPrefabs";
-    public GUIContent[] previewBases(out UnityEngine.GameObject[] objs,int type)
+    private const string brashPath = "/MapEditor/Facilities";
+    private const string floorPath = "/MapEditor/Floor";
+    public GUIContent[] previewBases(out UnityEngine.GameObject[] objs, MapCellData.BuildingType type)
     {
-        var files = System.IO.Directory.GetFiles(Application.dataPath + "/MapEditor/BrushPrefabs","*.prefab",System.IO.SearchOption.TopDirectoryOnly);
+        var path = floorPath;
+        if (type == MapCellData.BuildingType.Building)
+            path = brashPath;
+
+        var files = System.IO.Directory.GetFiles(Application.dataPath + path, "*.prefab",System.IO.SearchOption.TopDirectoryOnly);
         objs = files
             .Select((r) =>
                 {
@@ -134,7 +147,7 @@ public class MapTool : SceneView
                     return (GameObject)obj; 
                 })
             .Select(r => r.GetComponent<HexBrush>())
-            .Where(r => r.data.buildingType == (MapCellData.BuildingType)type)
+            .Where(r => r.data.buildingType == type)
             .Select(r => r.gameObject)
             .ToArray();
         var ret = objs
@@ -150,12 +163,17 @@ public class MapTool : SceneView
             currentTag = type;
         }
         UnityEngine.GameObject[] objs = null;
-        var s =  GUILayout.SelectionGrid(selectBrushBase, previewBases(out objs, type), 3);
+        var s =  GUILayout.SelectionGrid(selectBrushBase, previewBases(out objs, (MapCellData.BuildingType)type), 5, GUILayout.Width(480));
         if (s != selectBrushBase)
         {
+            Selection.objects = null;
             selectBrushBase = s;
             currentSelect = objs[s];
         }
+        //if (type == 0)
+        //{
+        //    defaultBrush = objs[1].GetComponent<HexBrush>();
+        //}
     }
 
 
@@ -169,8 +187,9 @@ public class MapTool : SceneView
             if (currentSelect)
             {
                 HexBrush hb = currentSelect.GetComponent<HexBrush>();
+                MapCreateTool.InitBrush(hb);
                 if (hb)
-                {
+                {                
                     MapCellTool.DrawBrush(hb.data);
                 }
             }
@@ -221,10 +240,17 @@ public class MapTool : SceneView
         GUILayout.EndArea();
     }
 
-    
+    private GUIStyle fontStyle;
 
     private void OnGUI()
     {
+        //if (Event.current != null)
+        //    draw = Event.current.shift;
+        if (null == fontStyle)
+        {
+            fontStyle = new GUIStyle() { fontSize = 40 };
+            fontStyle.normal.textColor = Color.red;
+        }
         base.OnGUI();
         EditorGUI.DrawRect(view, Color.gray *0.9f);
         OnGUIMenu(topSize);
@@ -232,14 +258,22 @@ public class MapTool : SceneView
         OnGUIBrush(brushSize);
         OnGUIBrushInfo(brushInfoSize);
         OnGUIInfo(infoSize);
+        OnGUILayer(layerSize);
         //flag = EditorGUILayout.ObjectField("flagObject", flag, typeof(GameObject), true) as GameObject;
         //draw = EditorGUILayout.ToggleLeft("draw ?", draw);
         //currentSelect = EditorGUILayout.ObjectField("select go", currentSelect, typeof(GameObject), true) as GameObject;
 
+        if (draw)
+        {
+            GUILayout.BeginArea(viewRight);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(400);
+            GUILayout.Label(new GUIContent("绘制中"), fontStyle);
+            GUILayout.EndHorizontal();
+            GUILayout.EndArea();
+        }
 
-
-
-
+        
     }
 
    
@@ -265,6 +299,154 @@ public class MapTool : SceneView
         
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
+    }
+
+    private void ActiveLayer(IGrouping<int, MapCellData> layer,int l, bool active)
+    {
+        var cells = layer.ToList();
+        for (int i = 0; i < cells.Count; i++)
+        {
+            var id = map.HexPositionToIndex(cells[i].x, cells[i].y, cells[i].z);
+            if(map.hexs[id])
+                map.hexs[id].gameObject.SetActive(active);
+        }
+    }
+
+    private void OnLayer(IGrouping<int,MapCellData> layer,int l)
+    {
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("当前层级" + l.ToString());
+        ActiveLayer(layer,l,true);
+        if (GUILayout.Button("删除"))
+        {
+            if (map.layerCount == 0)
+            {
+                Debug.LogError("最起码有一层吧？？");
+                return;
+            }
+            int size = map.hexs.Length;
+            for (int i = size - 1; i >= 0; i--)
+            {
+                if (map.cells[i].z == l)
+                {
+                    map.cells[i] = null;
+                    GameObject.DestroyImmediate(map.hexs[i].gameObject);
+                    map.hexs[i] = null;
+
+
+                }
+                else if (map.cells[i].z > l)
+                {
+                    map.cells[i].z--;
+                    map.cells[i].id = map.HexPositionToIndex(map.cells[i].x, map.cells[i].y, map.cells[i].z);
+                }
+                
+            }
+            map.layerCount--;
+
+
+            var left_cells = map.cells.Where(r => r != null).ToArray();
+            var left_hexs = map.hexs.Where(r => r != null).ToArray();
+
+            map.hexs = left_hexs;
+            map.cells = left_cells;
+
+            //if (layerSelect > map.layerCount)
+            //{
+                layerSelect = 0;
+            //}
+        }
+
+        GUILayout.EndHorizontal();
+    }
+
+    private Vector2 layerScroll;
+    private int layerSelect = 0;
+    private int defaultBrushIndex;
+    private void OnGUILayer(Rect size)
+    {
+        
+        EditorGUI.DrawRect(size, Color.gray * 0.7f);
+        GUILayout.BeginArea(size);
+        EditorGUILayout.LabelField("层级");
+
+        
+
+        if (map)
+        {
+            layerScroll = GUILayout.BeginScrollView(layerScroll);
+            var layers = map.cells.GroupBy(r => r.z).ToArray();
+            var contents = layers.Select(r => new GUIContent("第" + r.Key.ToString() + "层")).ToArray();
+            var s = GUILayout.SelectionGrid(layerSelect, contents, 1);
+            if(s != layerSelect)
+            {
+                ActiveLayer(layers[layerSelect], layerSelect,false);
+                layerSelect = s;
+            }
+            GUILayout.EndScrollView();
+            if(layers.Length > layerSelect && layerSelect >= 0)
+                OnLayer(layers[layerSelect], layerSelect);
+        }
+        defaultBrush = (HexBrush)EditorGUILayout.ObjectField(defaultBrush, typeof(HexBrush), false);
+        GameObject[] objs = null;
+        var sel = GUILayout.SelectionGrid(defaultBrushIndex, previewBases(out objs, MapCellData.BuildingType.Floor), 4);
+        if (defaultBrush == null)
+        {
+            defaultBrush = (objs[0] as GameObject).GetComponent<HexBrush>();
+            MapCreateTool.InitBrush(defaultBrush);
+        }
+        if (sel != defaultBrushIndex)
+        {
+            defaultBrushIndex = sel;
+            defaultBrush = (objs[sel] as GameObject).GetComponent<HexBrush>();
+            MapCreateTool.InitBrush(defaultBrush);
+        }
+
+        if (GUILayout.Button("+"))
+        {
+            AddMapLayer();
+            
+        }
+        GUILayout.EndArea();
+    }
+
+
+    public void AddMapLayer()
+    {
+        if (!map)
+        {
+            Debug.LogError("请先创建");
+            return;
+        }
+        map.layerCount++;
+        int count = map.layerCount + 1;
+        int size = map.mapWidth * map.mapHeight;
+        var cells = new MapCellData[size * count];
+        var hexs = new Hex[size * count];
+
+        Array.Copy(map.hexs, hexs, map.hexs.Length);
+        Array.Copy(map.cells, cells, map.cells.Length);
+        var t_hexs = new List<Hex>();
+        for (int j = 0; j < mapHeight; j++)
+        {
+            for (int i = 0; i < mapWidth; i++)
+            {
+                var data = new MapCellData();
+                data.id = map.HexPositionToIndex(i, j, map.layerCount);
+                data.x = i;
+                data.y = j;
+                data.z = map.layerCount;
+                cells[data.id] = data;
+                var hex = InitHex(data);
+                hexs[data.id] = hex;
+                t_hexs.Add(hex);
+            }
+        }
+        
+        map.hexs = hexs;
+        map.cells = cells;
+        if (defaultBrush)
+            ChangeHexsToBrushType(t_hexs, defaultBrush);
     }
 
     public GUIContent[] toolbars => new GUIContent[]{
@@ -331,6 +513,7 @@ public class MapTool : SceneView
         var root = xmldoc.AppendChild(doc);
         doc.SetAttribute("width", mapWidth.ToString());
         doc.SetAttribute("height", mapHeight.ToString());
+        doc.SetAttribute("layers", map.layerCount.ToString());
         var walkableRoot = root.AppendChild(xmldoc.CreateElement("WalkableNodes"));
         var eventRoot = root.AppendChild(xmldoc.CreateElement("EventNodes"));
 
@@ -343,7 +526,7 @@ public class MapTool : SceneView
                 SerializeWalkalbeNode(walkableRoot, k, e);
             }
             
-            if(k.eventType != MapCellData.EventType.None && k.buildingType == MapCellData.BuildingType.Building)
+            if(k.buildingType == MapCellData.BuildingType.Building)
             {
                 XmlElement e = xmldoc.CreateElement("Node");
                 SerializeEventNode(eventRoot, k, e);
@@ -368,6 +551,7 @@ public class MapTool : SceneView
 
                 sw.WriteLine($"width = {mapWidth},");
                 sw.WriteLine($"height = {mapHeight},");
+                sw.WriteLine($"layers = {map.layerCount},");
                 sw.WriteLine("walkableNodes = {");
 
                 foreach (var k in map.cells)
@@ -376,11 +560,12 @@ public class MapTool : SceneView
                     sw.Write($"id = {k.id},");
                     sw.Write($"x = {k.x},");
                     sw.Write($"y = {k.y},");
-                    sw.Write($"walkType = '{k.walkType}',");
-                    sw.Write($"buildingType = '{k.buildingType}',");
+                    sw.Write($"z = {k.z},");
+                    sw.Write($"walkType = {(int)k.walkType},");
+                    sw.Write($"buildingType = {(int)k.buildingType},");
                     sw.Write($"res = '{k.res}',");
                     sw.Write($"buildingRes = '{k.buildingRes}',");
-                    sw.Write($"eventId = {(int)k.eventType},");
+                    sw.Write($"eventId = {(k.buildingType == MapCellData.BuildingType.Building ? k.luaTableID : 0)},");
                     sw.WriteLine("},");
                 }
 
@@ -398,7 +583,8 @@ public class MapTool : SceneView
         element.SetAttribute("id", data.id.ToString());
         element.SetAttribute("x", data.x.ToString());
         element.SetAttribute("y", data.y.ToString());
-       
+        element.SetAttribute("z", data.z.ToString());
+
         root.AppendChild(element);
     }
 
@@ -410,7 +596,8 @@ public class MapTool : SceneView
         element.SetAttribute("id", data.id.ToString());
         element.SetAttribute("x", data.x.ToString());
         element.SetAttribute("y", data.y.ToString());
-        element.SetAttribute("eventId", ((int)data.eventType).ToString());
+        element.SetAttribute("z", data.z.ToString());
+        element.SetAttribute("eventId", ((int)data.luaTableID).ToString());
         root.AppendChild(element);
     }
 
@@ -436,7 +623,7 @@ public class MapTool : SceneView
 
     private void Load()
     {
-        Clean();
+        
 
         string path = EditorUtility.OpenFilePanel("打开", mapSavePath, "asset");
         if (string.IsNullOrEmpty(path))
@@ -444,6 +631,7 @@ public class MapTool : SceneView
             Debug.LogError("地图名称是空");
             return;
         }
+        Clean();
         path = path.Substring(path.IndexOf("Assets/"));
         mapName = path;
 
@@ -459,11 +647,48 @@ public class MapTool : SceneView
             this.map = Instantiate(map);
         mapWidth = map.mapWidth;
         mapHeight = map.mapHeight;
-        this.map.hexs = new Hex[mapWidth * mapHeight];
+        this.map.hexs = new Hex[mapWidth * mapHeight * (map.layerCount + 1)];
         ChangeDefaultHex(map.cells);
 
+        layerSelect = 0;
+        var layers = map.cells.GroupBy(r => r.z).ToArray();
+        if (layers != null && layers.Length != 0)
+        {
+            foreach (var k in layers)
+            {
+                ActiveLayer(k, k.Key, false);
+            }
+            ActiveLayer(layers[layerSelect], layerSelect, false);
+        }
+    }
 
-
+    void ChangeHex(Hex hex, MapCellData data)
+    {
+        if (!string.IsNullOrEmpty(data.res))
+        {
+            if (data.buildingType == MapCellData.BuildingType.Floor)
+            {
+                var o = AssetDatabase.LoadAssetAtPath<GameObject>(data.res);
+                if (o)
+                {
+                    var brush = o.GetComponent<HexBrush>();
+                    //MapCreateTool.InitBrush(brush);
+                    var newHex = ChangeGameObjectToBrushType(hex, brush);
+                    //GenBuildingRes(newHex);
+                }
+            }
+            if (data.buildingType == MapCellData.BuildingType.Building)
+            {
+                var o = AssetDatabase.LoadAssetAtPath<GameObject>(data.res);
+                if (o)
+                {
+                    var brush = o.GetComponent<HexBrush>();
+                    //MapCreateTool.InitBrush(brush);
+                    var newHex = ChangeGameObjectToBrushType(hex, brush);
+                    GenBuildingRes(newHex);
+                }
+            }
+        }
     }
 
     void ChangeDefaultHex(IList<MapCellData> data)
@@ -471,27 +696,28 @@ public class MapTool : SceneView
         for (int i = 0; i < data.Count; i++)
         {
             var hex = InitHex(data[i]);
-            if (!string.IsNullOrEmpty(data[i].res))
-            {
-                var o = AssetDatabase.LoadAssetAtPath<GameObject>(data[i].res);
-                if (o)
-                {
-                    var brush = o.GetComponent<HexBrush>();
-                    var newHex = ChangeGameObjectToBrushType(hex, brush);
-                    GenBuildingRes(newHex);
-                }
-            }
 
+            ChangeHex(hex, data[i]);
         }
     }
-
+    protected HexBrush defaultBrush;
     public void ChangeAllHexToBrushType(HexBrush brush)
     {
+        defaultBrush = brush;
         var array = map.hexs;
-        for(int i = 0; i < array.Length;i++)
+        ChangeHexsToBrushType(array, defaultBrush);
+    }
+
+    public void ChangeHexsToBrushType(IList<Hex> hexs, HexBrush brush)
+    {
+        var array = hexs;
+        for (int i = 0; i < array.Count; i++)
         {
             var hex = array[i];
+            hex.data.res = AssetDatabase.GetAssetPath(brush);
+            hex.data.buildingRes = string.Empty;
             ChangeGameObjectToBrushType(hex, brush);
+
         }
     }
 
@@ -505,14 +731,14 @@ public class MapTool : SceneView
             Debug.LogError("地图名称是空");
             return;
         }
-        MapData newMap = ScriptableObject.CreateInstance<MapData>();
+        MapData newMap = GameObject.Instantiate(map);
         newMap.cells = this.map.cells
             .Where(r=> r != null)
             .Select(r=>r.Clone()).ToArray();
         newMap.hexs = null;
-        newMap.mapHeight = mapHeight;
-        newMap.mapWidth = mapWidth;
-       
+        //newMap.mapHeight = mapHeight;
+        //newMap.mapWidth = mapWidth;
+        //newMap.layerCount = map.layerCount;
         var path = mapName.Substring(mapName.IndexOf("Assets/"));
         mapName = path;
         var fileName = Path.GetFileNameWithoutExtension(mapName);
@@ -538,7 +764,7 @@ public class MapTool : SceneView
         hm.HexModel.meshRenderer.sharedMaterial = new Material(Shader.Find("Diffuse"));
         
        
-        MapCellTool.OnPropertyChange(hm);
+        //MapCellTool.OnPropertyChange(hm);
         return hm;
     }
 
@@ -554,9 +780,11 @@ public class MapTool : SceneView
             for (int i = 0; i < mapWidth; i++)
             {
                 var data = new MapCellData();
-                data.id = i + j * mapWidth;
+                data.id = map.HexPositionToIndex(i, j, 0);
                 data.x = i;
                 data.y = j;
+                data.z = height;
+                //data.TableID =  int.Parse(name);
                 map.cells[data.id] = data;
                 var hex = InitHex(data);
                 map.hexs[data.id] = hex;
@@ -575,7 +803,7 @@ public class MapTool : SceneView
         {
             ChangeGameObjectType(Selection.gameObjects);
         }
-
+        
         Repaint();
     }
 
@@ -626,9 +854,9 @@ public class MapTool : SceneView
             Undo.RecordObject(hex, hex.name);
             hex.data.buildingRes = res;
             hex.data.buildingType = brush.data.buildingType;
-            hex.data.eventType = brush.data.eventType;
+            //hex.data.eventType = brush.data.eventType;
             hex.data.walkType = brush.data.walkType;
-
+            ParseData(hex, brush);
             if (hex.transform.childCount == 1)
             {
                 var trans = hex.transform.GetChild(0);
@@ -645,7 +873,7 @@ public class MapTool : SceneView
         {
             var go = Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(hex.data.buildingRes));
             go.transform.SetParent(hex.transform, false);
-            go.transform.localPosition = Vector3.up;
+            go.transform.localPosition = Vector3.up * Globals.OffsetScale;
             Undo.RegisterCreatedObjectUndo(go, hex.data.buildingRes);
             Undo.DestroyObjectImmediate(go.GetComponent<HexBrush>());
             var building = Undo.AddComponent<HexBuilding>(go);
@@ -661,8 +889,9 @@ public class MapTool : SceneView
         {
             hex.data.buildingRes = res;
             hex.data.buildingType = brush.data.buildingType;
-            hex.data.eventType = brush.data.eventType;
+            //hex.data.eventType = brush.data.eventType;
             hex.data.walkType = brush.data.walkType;
+            ParseData(hex, brush);
 
             if (hex.transform.childCount == 1)
             {
@@ -673,14 +902,14 @@ public class MapTool : SceneView
             GenBuildingRes(hex);
         }
     }
-
+    
     void GenBuildingRes(Hex hex)
     {
         if (!string.IsNullOrEmpty(hex.data.buildingRes) && hex.data.buildingType == MapCellData.BuildingType.Building)
         {
             var go = Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(hex.data.buildingRes));
             go.transform.SetParent(hex.transform, false);
-            go.transform.localPosition = Vector3.up;
+            go.transform.localPosition = Vector3.up * Globals.OffsetScale;
 
             GameObject.DestroyImmediate(go.GetComponent<HexBrush>());
             var building = go.AddComponent<HexBuilding>();
@@ -695,22 +924,31 @@ public class MapTool : SceneView
         HexBrush hb = go.GetComponent<HexBrush>();
         go.transform.position = hex.transform.position;
         Hex newHex = go.AddComponent<Hex>();
-
+       
         
         newHex.data = hex.data.Clone();
         newHex.data.walkType = hb.data.walkType;
-        newHex.data.res = AssetDatabase.GetAssetPath(brush);
+        go.name = newHex.data.id.ToString();
+        //newHex.data.res = AssetDatabase.GetAssetPath(brush);
 
         newHex.HexPosition = new Vector2(newHex.data.x, newHex.data.y);
-
+        ParseData(newHex, brush);
         garbage.Add(go);
 
-        var index = map.HexPositionToIndex(hex.data.x, hex.data.y);
+        var index = map.HexPositionToIndex(hex.data.x, hex.data.y,hex.data.z);
         map.hexs[index]  = newHex;
         map.cells[index] = newHex.data;
         GameObject.DestroyImmediate(hex.gameObject);
         GameObject.DestroyImmediate(hb);
         return newHex;
+    }
+
+    void ParseData(Hex hex, HexBrush brush)
+    {
+        hex.data.luaTableID = brush.data.luaTableID;
+        hex.data.TableEffect = brush.data.TableEffect;
+        hex.data.TableInfomation = brush.data.TableInfomation;
+        hex.data.TableName = brush.data.TableName;
     }
 
     void ChangeGameObjectToBrushTypeWithUndo(Hex hex, HexBrush brush)
@@ -724,11 +962,11 @@ public class MapTool : SceneView
         newHex.data = hex.data.Clone();
         newHex.data.walkType = hb.data.walkType;
         newHex.data.buildingType = hb.data.buildingType;
-        newHex.data.eventType = hb.data.eventType;
+        //newHex.data.eventType = hb.data.eventType;
         newHex.data.res = AssetDatabase.GetAssetPath(brush);
-
+        newHex.data.buildingRes = string.Empty;
         newHex.HexPosition = new Vector2(newHex.data.x, newHex.data.y);
-
+        ParseData(newHex, brush);
         Undo.RegisterCreatedObjectUndo(go, "HexBrushObject");
 
 

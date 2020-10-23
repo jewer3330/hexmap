@@ -9,8 +9,21 @@ public class BrushCreateTool : EditorWindow
     private MapCellData data = new MapCellData();
     private int type = 0;
     private MapTool window;
-    private string path = "Assets/MapEditor/BrushPrefabs";
-    private string brushName = "default";
+    private string facilities_path = "Assets/MapEditor/Facilities";
+    private string floor_path = "Assets/MapEditor/Floor";
+    private int brushName = 0;
+    private string path
+    {
+        get
+        {
+            var path = floor_path;
+            if (data.buildingType == MapCellData.BuildingType.Building)
+            {
+                path = facilities_path;
+            }
+            return path;
+        }
+    }
     public static BrushCreateTool Open(MapTool p)
     {
         BrushCreateTool window = (BrushCreateTool)EditorWindow.GetWindow(typeof(BrushCreateTool));
@@ -23,7 +36,7 @@ public class BrushCreateTool : EditorWindow
     {
         go = (GameObject)EditorGUILayout.ObjectField("画笔模型",go, typeof(GameObject),false);
         
-        brushName = EditorGUILayout.TextField("画笔名称",brushName);
+        brushName = EditorGUILayout.IntField("画笔ID",brushName);
 
         if (data != null)
         {
@@ -43,7 +56,9 @@ public class BrushCreateTool : EditorWindow
             }
             var brush = go.AddComponent<HexBrush>();
             brush.data = data;
-            
+            go.name = brushName.ToString();
+            MapCreateTool.InitBrush(brush);
+          
             PrefabUtility.SaveAsPrefabAssetAndConnect(go, string.Format("{0}/{1}.prefab", path, brushName), InteractionMode.UserAction);
             GameObject.DestroyImmediate(go);
             go = null;
@@ -54,11 +69,10 @@ public class BrushCreateTool : EditorWindow
             
     }
 
-    private void CreateDefault(GameObject go,string name)
+    private void CreateDefault(GameObject go,int name)
     {
         var hm = go.AddComponent<HexModel>();
         var mesh = hm.GenMesh();
-        
         string meshpath = string.Format("{0}/{1}.mesh", path, name);
         AssetDatabase.CreateAsset(mesh, meshpath);
         AssetDatabase.Refresh();

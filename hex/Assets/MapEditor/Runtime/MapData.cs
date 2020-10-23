@@ -5,11 +5,11 @@ public class MapCellData
 {
     public int x;
     public int y;
-    public int h;
+    public int z;
     public int id;
-    public string res;
-    public string buildingRes;
-    public WalkType walkType = WalkType.UnWalkable;
+    public string res = string.Empty;
+    public string buildingRes = string.Empty;
+    public WalkType walkType = WalkType.Unwalkable;
     public EventType eventType = EventType.None;
     public BuildingType buildingType = BuildingType.Floor;
 
@@ -31,23 +31,57 @@ public class MapCellData
     [System.NonSerialized]
     public int count;
 
+    public int luaTableID = -1;
+    public string TableName;
+    public string TableEffect;
+    public string TableInfomation;
+    public void LoadFromLua(XLua.LuaTable t)
+    {
+        if (buildingType == BuildingType.Floor)
+        {
+            var table = t.Get<int, XLua.LuaTable>(this.luaTableID);
+            TableName = table.Get<string>("name");
+            walkType = table.Get<string>("iswalkable") == "1" ? WalkType.Walkable : WalkType.Unwalkable;
+        }
+        else
+        {
+            var table = t.Get<int, XLua.LuaTable>(this.luaTableID);
+            TableName = table.Get<string>("name");
+            //walkType = table.Get<string>("iswalkable") == "1" ? WalkType.可行走 : WalkType.不可行走;
+            walkType = WalkType.Walkable;
+            TableEffect = table.Get<string>("effect");
+            var vs = TableEffect.Split(',');
+            eventType = (EventType)int.Parse(vs[0]);
+            TableInfomation = table.Get<string>("information");
+        }
+    }
+    [XLua.DoNotGen]
+
     public enum WalkType
     {
-        UnWalkable,
+        Unwalkable,
         Walkable,
         
         
     }
-
+    [System.Obsolete]
+    [XLua.DoNotGen]
     public enum EventType
     { 
         None,
-        Start,
-        End,
-        Door,
-        Key,
-        Reward,
+        Monster = 1,
+        Boss = 2,
+        Up = 3,
+        StartPosition = 4,
+        TP = 5,
+        Gate = 10,
+        Trap = 11,
+        Bar = 12,
+        Water = 101,
+        Complex = 102,
     }
+
+    [XLua.DoNotGen]
 
     public enum BuildingType
     { 
@@ -72,17 +106,18 @@ public class MapCellData
         neighbors[idx] = hex;
     }
 
-    //public MapCellData(XLua.LuaTable mo)
-    //{
-    //    this.x = mo.Get<string,int>("x");
-    //    this.y = mo.Get<string, int>("y");
-    //    this.id = mo.Get<string, int>("id");
-    //    this.res = mo.Get<string, string>("res");
-    //    this.walkType = (WalkType)System.Enum.Parse(typeof(WalkType), mo.Get<string, string>("walkType"));
-    //    this.eventType = (EventType)System.Enum.Parse(typeof(EventType), mo.Get<string, string>("eventId"));
-    //    this.buildingType = (BuildingType)System.Enum.Parse(typeof(BuildingType), mo.Get<string, string>("buildingType"));
-    //    this.buildingRes = mo.Get<string, string>("buildingRes");
-    //}
+    public MapCellData(XLua.LuaTable mo)
+    {
+        this.x = mo.Get<string,int>("x");
+        this.y = mo.Get<string, int>("y");
+        this.z = mo.Get<string, int>("z");
+        this.id = mo.Get<string, int>("id");
+        this.res = mo.Get<string, string>("res");
+        this.walkType = (WalkType)System.Enum.Parse(typeof(WalkType), mo.Get<string, string>("walkType"));
+        this.eventType = (EventType)System.Enum.Parse(typeof(EventType), mo.Get<string, string>("eventId"));
+        this.buildingType = (BuildingType)System.Enum.Parse(typeof(BuildingType), mo.Get<string, string>("buildingType"));
+        this.buildingRes = mo.Get<string, string>("buildingRes");
+    }
 
 
 
@@ -90,7 +125,7 @@ public class MapCellData
     {
         this.x = mo.data.x;
         this.y = mo.data.y;
-        this.h = mo.data.h;
+        this.z = mo.data.z;
         this.id = mo.data.id;
         this.res = mo.data.res;
         this.walkType = mo.data.walkType;
@@ -151,6 +186,7 @@ public class MapCellData
     public bool canPass()
     {
         return walkType == WalkType.Walkable;
+        //return true;
     }
 
    
@@ -271,9 +307,10 @@ public class MapData : ScriptableObject
     public MapCellData[] cells;
     public int mapWidth;
     public int mapHeight;
-
-    public int HexPositionToIndex(int x, int y)
+    public int layerCount;
+    public int HexPositionToIndex(int x, int y,int z)
     {
-        return y * mapWidth + x;
+        int size = mapWidth * mapHeight;
+        return z * size + y * mapWidth + x;
     }
 }
