@@ -1,0 +1,15 @@
+{
+    "name": "Medusa.Editor",
+    "references": [
+        "GUID:b530338cd8d67eb40a35e3f041755960"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
