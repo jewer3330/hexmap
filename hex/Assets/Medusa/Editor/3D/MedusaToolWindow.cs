@@ -62,8 +62,8 @@ public class MedusaToolWindow : SceneView
 
 
     private GameObject currentSelect;
-    private Vector2 scrollPosition;
     private bool draw;
+    private Vector2 scrollPosition;
 
 
     private int start = 0;

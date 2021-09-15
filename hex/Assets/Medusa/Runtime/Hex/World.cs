@@ -17,7 +17,7 @@ public class World : MonoBehaviour {
             for (int i = 0; i < gridY; i++)
             {
                 var position = new Vector2(i, j);
-                var pos = ToPixel(position);
+                var pos = ToWorldPos(position);
 
                 var hex = new GameObject();
                 hex.AddComponent<Hex>();
@@ -115,7 +115,7 @@ public class World : MonoBehaviour {
         return new Vector3(resultX, resultY);
     }
 
-    public static Vector3 ToPixel(Vector2 hc)
+    public static Vector3 ToWorldPos(Vector2 hc)
     {
         var x = (hc.x * Globals.Width) + (((int)hc.y & 1) * Globals.Width / 2);
         return new Vector3(x, 0, (float)(hc.y * 1.5 * Globals.Radius));

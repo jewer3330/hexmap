@@ -73,7 +73,7 @@ public class Medusa
     /// <summary>
     /// 加载地图
     /// </summary>
-    public void Load()
+    public void Load(bool genRes = true)
     {
         string path = EditorUtility.OpenFilePanel("打开", mapSavePath, "asset");
         if (string.IsNullOrEmpty(path))
@@ -96,18 +96,21 @@ public class Medusa
             this.map = Object.Instantiate(map);
         mapWidth = map.mapWidth;
         mapHeight = map.mapHeight;
-        this.map.hexs = new Hex[mapWidth * mapHeight * (map.layerCount + 1)];
-        ChangeDefaultHex(map.cells);
-
-        var layerSelect = 0;
-        var layers = GetLayers();
-        if (layers != null && layers.Length != 0)
+        if (genRes)
         {
-            foreach (var k in layers)
+            this.map.hexs = new Hex[mapWidth * mapHeight * (map.layerCount + 1)];
+            ChangeDefaultHex(map.cells);
+
+            var layerSelect = 0;
+            var layers = GetLayers();
+            if (layers != null && layers.Length != 0)
             {
-                ActiveLayer(k, false);
+                foreach (var k in layers)
+                {
+                    ActiveLayer(k, false);
+                }
+                ActiveLayer(layers[layerSelect], true);
             }
-            ActiveLayer(layers[layerSelect], true);
         }
     }
 
@@ -233,7 +236,7 @@ public class Medusa
     public Hex InitHex(MapCellData data)
     {
         var position = new Vector2(data.x, data.y);
-        var pos = World.ToPixel(position);
+        var pos = World.ToWorldPos(position);
         var hex = new GameObject();
         var hm = hex.AddComponent<Hex>();
         hm.data = data;
