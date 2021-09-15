@@ -336,7 +336,6 @@ public class Medusa
         var path = mapName.Substring(mapName.IndexOf("Assets/"));
         mapName = path;
         var fileName = Path.GetFileNameWithoutExtension(mapName);
-        Export(fileName);
         AssetDatabase.DeleteAsset(mapName);
         AssetDatabase.CreateAsset(newMap, mapName);
         AssetDatabase.Refresh();
@@ -417,7 +416,7 @@ public class Medusa
             }
         }
 
-        xmldoc.Save(Application.dataPath + $"{exportPath.Substring(exportPath.IndexOf("Assets"))}/{fileName}.xml");
+        xmldoc.Save(Application.dataPath + $"/{exportPath.Substring(exportPath.IndexOf("Medusa"))}/{fileName}.xml");
         AssetDatabase.Refresh();
     }
 
@@ -427,7 +426,7 @@ public class Medusa
     /// <param name="fileName"></param>
     public void ExportLua(string fileName)
     {
-        string path = Application.dataPath + $"{exportLuaPath.Substring(exportLuaPath.IndexOf("Assets"))}/{fileName}.lua";
+        string path = Application.dataPath + $"/{exportLuaPath.Substring(exportLuaPath.IndexOf("Medusa"))}/{fileName}.lua";
         using (FileStream fs = new FileStream(path, FileMode.Create))
         {
             using (StreamWriter sw = new StreamWriter(fs))
@@ -452,7 +451,7 @@ public class Medusa
                     sw.Write($"buildingType = {(int)k.buildingType},");
                     sw.Write($"res = '{k.res}',");
                     sw.Write($"buildingRes = '{k.buildingRes}',");
-                    sw.Write($"eventId = {(k.buildingType == MapCellData.HasEvent.Has ? k.eventType : 0)},");
+                    sw.Write($"eventId = {(k.buildingType == MapCellData.HasEvent.Has ? (int)k.eventType : 0)},");
                     sw.WriteLine("},");
                 }
 

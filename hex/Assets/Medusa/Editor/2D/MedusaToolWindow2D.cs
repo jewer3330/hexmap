@@ -5,19 +5,22 @@ using UnityEngine;
 
 public class MedusaToolWindow2D : EditorWindow
 {
-    static string mapSavePath = "Assets/Medusa/Editor/Data";
-    static string exportPath = "Assets/Medusa/Editor/Export";
 
 
     private int width => 300;
-    private int startY = 0;
-    private Rect toolBarSize => new Rect(330, 0, width, 20);
+    private Rect toolBarSize => new Rect(0, 0, width, 20);
     public Rect topSize => new Rect(0, 0, this.position.width, 300);
+
+    public Medusa medusa;
 
     [MenuItem("Tools/Medusa Editor 2D &n")]
     static void Init()
     {
         MedusaToolWindow2D window = (MedusaToolWindow2D)GetWindow(typeof(MedusaToolWindow2D));
+        if (window.medusa == null)
+        {
+            window.medusa = new Medusa();
+        }
         window.Show();
         window.minSize = new Vector2(1440, 900);
         window.Start();
@@ -58,22 +61,22 @@ public class MedusaToolWindow2D : EditorWindow
             switch (select)
             {
                 case 0:
-                    //Load();
+                    medusa.Load();
                     break;
                 case 1:
-                    //Save();
+                    medusa.Save();
                     break;
                 case 2:
-                    //MapCreateTool.Open(this);
+                    MapCreateTool.Open(medusa);
                     break;
                 case 3:
-                    //Clean();
+                    medusa.Clean();
                     break;
                 case 4:
-                    //NewBrush();
+                    medusa.NewBrush();
                     break;
                 case 5:
-                    //Export();
+                    medusa.Export();
                     break;
             }
             select = -1;
@@ -81,6 +84,12 @@ public class MedusaToolWindow2D : EditorWindow
         GUILayout.EndArea();
     }
 
-    
+    private void OnDestroy()
+    {
+        if (medusa != null)
+        {
+            medusa.Clean();  
+        }
+    }
 
 }
