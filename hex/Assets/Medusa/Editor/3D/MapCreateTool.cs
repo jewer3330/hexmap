@@ -5,26 +5,26 @@ using UnityEngine;
 
 public class MapCreateTool : EditorWindow
 {
-    private MedusaToolWindow window;
+    private Medusa medusa;
     private HexBrush defaultBrush;
     private int selectBrushBase = 0;
 
-    public static MapCreateTool Open(MedusaToolWindow p)
+    public static MapCreateTool Open(Medusa p)
     {
         MapCreateTool window = (MapCreateTool)EditorWindow.GetWindow(typeof(MapCreateTool));
         window.Show();
-        window.window = p;
+        window.medusa = p;
         return window;
     }
 
     private void OnGUI()
     {
-        window.mapWidth = EditorGUILayout.IntField("mapWidth", window.mapWidth);
-        window.mapHeight = EditorGUILayout.IntField("mapHeight", window.mapHeight);
+        medusa.mapWidth = EditorGUILayout.IntField("mapWidth", medusa.mapWidth);
+        medusa.mapHeight = EditorGUILayout.IntField("mapHeight", medusa.mapHeight);
 
         defaultBrush =(HexBrush) EditorGUILayout.ObjectField(defaultBrush, typeof(HexBrush), false);
         GameObject[] objs = null;
-        var s = GUILayout.SelectionGrid(selectBrushBase, window.previewBases(out objs, MapCellData.HasEvent.None), 4);
+        var s = GUILayout.SelectionGrid(selectBrushBase, medusa.PreviewBases(MapCellData.HasEvent.None,out objs), 4);
         if (defaultBrush == null)
         {
             defaultBrush = (objs[0] as GameObject).GetComponent<HexBrush>();
@@ -38,24 +38,15 @@ public class MapCreateTool : EditorWindow
         }
         if (GUILayout.Button("Create"))
         {
-            window.Clean();
-            window.CreateMap();
+            medusa.Clean();
+            medusa.CreateMap();
             if(defaultBrush)
-                window.ChangeAllHexToBrushType(defaultBrush);
+                medusa.ChangeAllHexToBrushType(defaultBrush);
         }
     }
 
-    public static void InitBrush(HexBrush defaultBrush)
+    public void InitBrush(HexBrush defaultBrush)
     {
-        //var data = defaultBrush.data;
-
-        //    int id = 0;
-        //    if (!int.TryParse(defaultBrush.name, out id))
-        //    {
-        //        Debug.LogError("错误，名称不为数字");
-        //    }
-            
-           
-        
+        medusa.defaultBrush = defaultBrush;
     }
 }

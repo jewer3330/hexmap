@@ -7,7 +7,7 @@ public class BrushCreateTool : EditorWindow
 {
     private GameObject go;
     private MapCellData data = new MapCellData();
-    private MedusaToolWindow window;
+    public Medusa  medusa;
     private string facilities_path = "Assets/Medusa/Facilities";
     private string floor_path = "Assets/Medusa/Floor";
     private string brushName = "默认画笔";
@@ -23,13 +23,7 @@ public class BrushCreateTool : EditorWindow
             return path;
         }
     }
-    public static BrushCreateTool Open(MedusaToolWindow p)
-    {
-        BrushCreateTool window = (BrushCreateTool)EditorWindow.GetWindow(typeof(BrushCreateTool));
-        window.Show();
-        window.window = p;
-        return window;
-    }
+    
 
     private void OnGUI()
     {
@@ -59,8 +53,8 @@ public class BrushCreateTool : EditorWindow
                 brush = cloned.AddComponent<HexBrush>();
             brush.data = data;
             cloned.name = brushName.ToString();
-            MapCreateTool.InitBrush(brush);
-          
+            medusa.defaultBrush = brush;
+
             var prefab = PrefabUtility.SaveAsPrefabAssetAndConnect(cloned, string.Format("{0}/{1}.prefab", path, brushName), InteractionMode.UserAction);
             GameObject.DestroyImmediate(cloned);
             AssetDatabase.SaveAssets();
