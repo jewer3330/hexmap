@@ -1,0 +1,1229 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8df81c930e2ef4963bbe45a7fd7af799, type: 3}
+  m_Name: sample
+  m_EditorClassIdentifier: 
+  hexs: []
+  cells:
+  - x: 0
+    y: 0
+    z: 0
+    id: 0
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 1
+    y: 0
+    z: 0
+    id: 1
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 2
+    y: 0
+    z: 0
+    id: 2
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 3
+    y: 0
+    z: 0
+    id: 3
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 4
+    y: 0
+    z: 0
+    id: 4
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 5
+    y: 0
+    z: 0
+    id: 5
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 6
+    y: 0
+    z: 0
+    id: 6
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 7
+    y: 0
+    z: 0
+    id: 7
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 8
+    y: 0
+    z: 0
+    id: 8
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 9
+    y: 0
+    z: 0
+    id: 9
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 10
+    y: 0
+    z: 0
+    id: 10
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 0
+    y: 1
+    z: 0
+    id: 11
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 1
+    y: 1
+    z: 0
+    id: 12
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 2
+    y: 1
+    z: 0
+    id: 13
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 3
+    y: 1
+    z: 0
+    id: 14
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 4
+    y: 1
+    z: 0
+    id: 15
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 5
+    y: 1
+    z: 0
+    id: 16
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 6
+    y: 1
+    z: 0
+    id: 17
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 7
+    y: 1
+    z: 0
+    id: 18
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 8
+    y: 1
+    z: 0
+    id: 19
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 9
+    y: 1
+    z: 0
+    id: 20
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 10
+    y: 1
+    z: 0
+    id: 21
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 0
+    y: 2
+    z: 0
+    id: 22
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 1
+    y: 2
+    z: 0
+    id: 23
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 2
+    y: 2
+    z: 0
+    id: 24
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 3
+    y: 2
+    z: 0
+    id: 25
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 4
+    y: 2
+    z: 0
+    id: 26
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 5
+    y: 2
+    z: 0
+    id: 27
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 6
+    y: 2
+    z: 0
+    id: 28
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 7
+    y: 2
+    z: 0
+    id: 29
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 8
+    y: 2
+    z: 0
+    id: 30
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 9
+    y: 2
+    z: 0
+    id: 31
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 10
+    y: 2
+    z: 0
+    id: 32
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 0
+    y: 3
+    z: 0
+    id: 33
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 1
+    y: 3
+    z: 0
+    id: 34
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 2
+    y: 3
+    z: 0
+    id: 35
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 3
+    y: 3
+    z: 0
+    id: 36
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 4
+    y: 3
+    z: 0
+    id: 37
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 5
+    y: 3
+    z: 0
+    id: 38
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 6
+    y: 3
+    z: 0
+    id: 39
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 7
+    y: 3
+    z: 0
+    id: 40
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 8
+    y: 3
+    z: 0
+    id: 41
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 9
+    y: 3
+    z: 0
+    id: 42
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 10
+    y: 3
+    z: 0
+    id: 43
+    res: 
+    buildingRes: 
+    walkType: 1
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 0
+    y: 4
+    z: 0
+    id: 44
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 1
+    y: 4
+    z: 0
+    id: 45
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 2
+    y: 4
+    z: 0
+    id: 46
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 3
+    y: 4
+    z: 0
+    id: 47
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 4
+    y: 4
+    z: 0
+    id: 48
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 5
+    y: 4
+    z: 0
+    id: 49
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 6
+    y: 4
+    z: 0
+    id: 50
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 7
+    y: 4
+    z: 0
+    id: 51
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 8
+    y: 4
+    z: 0
+    id: 52
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 9
+    y: 4
+    z: 0
+    id: 53
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 10
+    y: 4
+    z: 0
+    id: 54
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 0
+    y: 5
+    z: 0
+    id: 55
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 1
+    y: 5
+    z: 0
+    id: 56
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 2
+    y: 5
+    z: 0
+    id: 57
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 3
+    y: 5
+    z: 0
+    id: 58
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 4
+    y: 5
+    z: 0
+    id: 59
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 5
+    y: 5
+    z: 0
+    id: 60
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 6
+    y: 5
+    z: 0
+    id: 61
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 7
+    y: 5
+    z: 0
+    id: 62
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 8
+    y: 5
+    z: 0
+    id: 63
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 9
+    y: 5
+    z: 0
+    id: 64
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 10
+    y: 5
+    z: 0
+    id: 65
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 0
+    y: 6
+    z: 0
+    id: 66
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 1
+    y: 6
+    z: 0
+    id: 67
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 2
+    y: 6
+    z: 0
+    id: 68
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 3
+    y: 6
+    z: 0
+    id: 69
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 4
+    y: 6
+    z: 0
+    id: 70
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 5
+    y: 6
+    z: 0
+    id: 71
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 6
+    y: 6
+    z: 0
+    id: 72
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 7
+    y: 6
+    z: 0
+    id: 73
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 8
+    y: 6
+    z: 0
+    id: 74
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 9
+    y: 6
+    z: 0
+    id: 75
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 10
+    y: 6
+    z: 0
+    id: 76
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 0
+    y: 7
+    z: 0
+    id: 77
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 1
+    y: 7
+    z: 0
+    id: 78
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 2
+    y: 7
+    z: 0
+    id: 79
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 3
+    y: 7
+    z: 0
+    id: 80
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 4
+    y: 7
+    z: 0
+    id: 81
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 5
+    y: 7
+    z: 0
+    id: 82
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 6
+    y: 7
+    z: 0
+    id: 83
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 7
+    y: 7
+    z: 0
+    id: 84
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 8
+    y: 7
+    z: 0
+    id: 85
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 9
+    y: 7
+    z: 0
+    id: 86
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 10
+    y: 7
+    z: 0
+    id: 87
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 0
+    y: 8
+    z: 0
+    id: 88
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 1
+    y: 8
+    z: 0
+    id: 89
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 2
+    y: 8
+    z: 0
+    id: 90
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 3
+    y: 8
+    z: 0
+    id: 91
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 4
+    y: 8
+    z: 0
+    id: 92
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 5
+    y: 8
+    z: 0
+    id: 93
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 6
+    y: 8
+    z: 0
+    id: 94
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 7
+    y: 8
+    z: 0
+    id: 95
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 8
+    y: 8
+    z: 0
+    id: 96
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 9
+    y: 8
+    z: 0
+    id: 97
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 10
+    y: 8
+    z: 0
+    id: 98
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 0
+    y: 9
+    z: 0
+    id: 99
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 1
+    y: 9
+    z: 0
+    id: 100
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 2
+    y: 9
+    z: 0
+    id: 101
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 3
+    y: 9
+    z: 0
+    id: 102
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 4
+    y: 9
+    z: 0
+    id: 103
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 5
+    y: 9
+    z: 0
+    id: 104
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 6
+    y: 9
+    z: 0
+    id: 105
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 7
+    y: 9
+    z: 0
+    id: 106
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 8
+    y: 9
+    z: 0
+    id: 107
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 9
+    y: 9
+    z: 0
+    id: 108
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 10
+    y: 9
+    z: 0
+    id: 109
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 0
+    y: 10
+    z: 0
+    id: 110
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 1
+    y: 10
+    z: 0
+    id: 111
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 2
+    y: 10
+    z: 0
+    id: 112
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 3
+    y: 10
+    z: 0
+    id: 113
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 4
+    y: 10
+    z: 0
+    id: 114
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 5
+    y: 10
+    z: 0
+    id: 115
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 6
+    y: 10
+    z: 0
+    id: 116
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 7
+    y: 10
+    z: 0
+    id: 117
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 8
+    y: 10
+    z: 0
+    id: 118
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 9
+    y: 10
+    z: 0
+    id: 119
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  - x: 10
+    y: 10
+    z: 0
+    id: 120
+    res: 
+    buildingRes: 
+    walkType: 0
+    eventType: 0
+    buildingType: 0
+    cost: 1
+  mapWidth: 11
+  mapHeight: 11
+  layerCount: 1

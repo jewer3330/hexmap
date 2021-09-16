@@ -6,7 +6,7 @@ public static class Globals
     /// 事件上移高度
     /// </summary>
     public static float OffsetScale = 0.3f;
-    public static float Radius = 1.5f;
+    public static float Radius = 0.5f;
     public static float Height = 2 * Radius;
     public static float RowHeight = 1.5f * Radius;
     public static float HalfWidth = (float)Math.Sqrt((Radius * Radius) - ((Radius / 2) * (Radius / 2)));

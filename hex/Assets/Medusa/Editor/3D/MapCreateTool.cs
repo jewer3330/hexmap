@@ -8,12 +8,13 @@ public class MapCreateTool : EditorWindow
     private Medusa medusa;
     private HexBrush defaultBrush;
     private int selectBrushBase = 0;
-
-    public static MapCreateTool Open(Medusa p)
+    private bool genRes;
+    public static MapCreateTool Open(Medusa p,bool genRes = true)
     {
         MapCreateTool window = (MapCreateTool)EditorWindow.GetWindow(typeof(MapCreateTool));
         window.Show();
         window.medusa = p;
+        window.genRes = genRes;
         return window;
     }
 
@@ -24,7 +25,7 @@ public class MapCreateTool : EditorWindow
 
         defaultBrush =(HexBrush) EditorGUILayout.ObjectField(defaultBrush, typeof(HexBrush), false);
         GameObject[] objs = null;
-        var s = GUILayout.SelectionGrid(selectBrushBase, medusa.PreviewBases(MapCellData.HasEvent.None,out objs), 4);
+        var s = GUILayout.SelectionGrid(selectBrushBase, medusa.PreviewBases(MapCellData.Catalogue.Floor,out objs), 4);
         if (defaultBrush == null)
         {
             defaultBrush = (objs[0] as GameObject).GetComponent<HexBrush>();
@@ -39,9 +40,17 @@ public class MapCreateTool : EditorWindow
         if (GUILayout.Button("Create"))
         {
             medusa.Clean();
-            medusa.CreateMap();
-            if(defaultBrush)
-                medusa.ChangeAllHexToBrushType(defaultBrush);
+            medusa.CreateMap(genRes);
+            if (genRes)
+            {
+                if (defaultBrush)
+                    medusa.ChangeAllHexToBrushType(defaultBrush);
+            }
+            else
+            {
+                if (defaultBrush)
+                    medusa.ChangeAllCellToBrushType(defaultBrush);
+            }
         }
     }
 

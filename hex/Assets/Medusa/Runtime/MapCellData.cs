@@ -14,7 +14,16 @@ public class MapCellData
     public string buildingRes = string.Empty;
     public WalkType walkType = WalkType.Walkable;
     public EventType eventType = EventType.None;
-    public HasEvent buildingType = HasEvent.None;
+
+    public bool IsEvent => eventType != EventType.None;
+
+    public Catalogue buildingType = Catalogue.Floor;
+    /// <summary>
+    /// 移动到邻近格子产生的消耗，越大表示阻挡
+    /// </summary>
+    public float cost = 1f;
+
+    [System.NonSerialized]
     public bool active;
 
     [System.NonSerialized]
@@ -27,16 +36,12 @@ public class MapCellData
     public Vector3 position;
     [System.NonSerialized]
     public MapCellData[] neighbors = new MapCellData[6];
-    [System.NonSerialized]
-    /// <summary>
-    /// 移动到邻近格子产生的消耗，越大表示阻挡
-    /// </summary>
-    public float cost = 1f;
+    
     [System.NonSerialized]
     public int count;
 
-
-
+    [System.NonSerialized]
+    public MapData map;
 
     public enum WalkType
     {
@@ -63,10 +68,10 @@ public class MapCellData
 
 
 
-    public enum HasEvent
+    public enum Catalogue
     {
-        None,
-        Has,
+        Floor,
+        Event,
     }
 
 
@@ -81,9 +86,40 @@ public class MapCellData
         return (MapCellData)this.MemberwiseClone();
     }
 
-    public void Link(int idx, MapCellData hex)
+    private void Link(int idx, int x,int y,int z)
     {
-        neighbors[idx] = hex;
+        if (x < 0 ||
+            x >= map.mapWidth ||
+            y < 0 ||
+            y >= map.mapHeight ||
+            z < 0 ||
+            z >= map.layerCount)
+            return;
+        var index = map.HexPositionToIndex(x, y, z);
+        neighbors[idx] = map.cells[index];
+    }
+
+    public void Link(MapData map)
+    {
+        this.map = map;
+        if (y % 2 == 0)
+        {
+            Link(0, x    ,y + 1,z);
+            Link(1, x + 1,y    ,z);
+            Link(2, x    ,y - 1,z);
+            Link(3, x - 1,y - 1,z);
+            Link(4, x - 1,y    ,z );
+            Link(5, x - 1,y + 1,z);
+        }
+        else
+        {
+            Link(0, x + 1, y + 1,z);
+            Link(1, x + 1, y + 0,z);
+            Link(2, x + 1, y - 1,z);
+            Link(3, x + 0, y - 1,z);
+            Link(4, x - 1, y + 0,z);
+            Link(5, x + 0, y + 1,z);
+        }
     }
 
 
@@ -293,15 +329,17 @@ public class MapCellData
         {
             Handles.BeginGUI();
             var oldcolor = Handles.color;
-            var color = Color.green;
+            //由cost 1->100 由绿变红
+            var color = Color.Lerp(Color.green, Color.red, cost / 10f);
             if (walkType == WalkType.Unwalkable)
             {
-                color = Color.red;
+                color = Color.black;
             }
             if (eventType != EventType.None)
             {
                 color = Color.yellow;
             }
+            
             Handles.color = color;
             var w = World.ToWorldPos(new Vector2(x, y));
             //转2D坐标

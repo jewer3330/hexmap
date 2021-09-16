@@ -116,7 +116,7 @@ public class MedusaToolWindow : SceneView
             currentTag = type;
         }
         UnityEngine.GameObject[] objs = null;
-        var content = medusa.PreviewBases((MapCellData.HasEvent)type, out objs);
+        var content = medusa.PreviewBases((MapCellData.Catalogue)type, out objs);
         var s = GUILayout.SelectionGrid(selectBrushBase, content, 15, GUILayout.Width(600), GUILayout.Height(30));
         if (s != selectBrushBase)
         {
@@ -265,7 +265,7 @@ public class MedusaToolWindow : SceneView
             EditorGUILayout.LabelField("选择默认地基");
             //defaultBrush = (HexBrush)EditorGUILayout.ObjectField(defaultBrush, typeof(HexBrush), false);
             GameObject[] objs = null;
-            var sel = GUILayout.SelectionGrid(defaultBrushIndex, medusa.PreviewBases(MapCellData.HasEvent.None, out objs), 4);
+            var sel = GUILayout.SelectionGrid(defaultBrushIndex, medusa.PreviewBases(MapCellData.Catalogue.Floor, out objs), 4);
             var defaultBrush = medusa.defaultBrush;
             if (defaultBrush == null)
             {
@@ -389,7 +389,7 @@ public class MedusaToolWindow : SceneView
                 HexBrush hb = currentSelect.GetComponent<HexBrush>();
                 if (cell != null && cell.data.res != AssetDatabase.GetAssetPath(currentSelect))//选中是地表
                 {
-                    if (hb.data.buildingType == MapCellData.HasEvent.None) //画刷是地面
+                    if (hb.data.buildingType == MapCellData.Catalogue.Floor) //画刷是地面
                     {
                         medusa.ChangeGameObjectToBrushTypeWithUndo(cell, hb);
                     }
@@ -403,11 +403,11 @@ public class MedusaToolWindow : SceneView
                     HexBuilding building = k.GetComponent<HexBuilding>();
                     if (building && building.hex) //当前选中的是事件
                     {
-                        if (hb.data.buildingType == MapCellData.HasEvent.Has)//画刷是事件
+                        if (hb.data.buildingType == MapCellData.Catalogue.Event)//画刷是事件
                         {
                             medusa.AddBuildToHexWithUndo(building.hex, hb);
                         }
-                        else if (hb.data.buildingType == MapCellData.HasEvent.None)//画刷是Floor，那就替换地面了
+                        else if (hb.data.buildingType == MapCellData.Catalogue.Floor)//画刷是Floor，那就替换地面了
                         {
                             medusa.ChangeGameObjectToBrushTypeWithUndo(building.hex, hb);
                         }

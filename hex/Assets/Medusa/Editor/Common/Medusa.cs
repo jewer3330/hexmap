@@ -99,6 +99,7 @@ public class Medusa
         mapWidth = map.mapWidth;
         mapHeight = map.mapHeight;
         this.genRes = genRes;
+        Link();
         if (genRes)
         {
             this.map.hexs = new Hex[mapWidth * mapHeight * (map.layerCount + 1)];
@@ -293,7 +294,7 @@ public class Medusa
             {
                 var brush = o.GetComponent<HexBrush>();
                 var newHex = ChangeGameObjectToBrushType(hex, brush);
-                if (data.buildingType == MapCellData.HasEvent.Has)
+                if (data.buildingType == MapCellData.Catalogue.Event)
                 {
                     GenBuildingRes(newHex);
                 }
@@ -307,7 +308,7 @@ public class Medusa
     /// <param name="hex"></param>
     public void GenBuildingRes(Hex hex)
     {
-        if (!string.IsNullOrEmpty(hex.data.buildingRes) && hex.data.buildingType == MapCellData.HasEvent.Has)
+        if (!string.IsNullOrEmpty(hex.data.buildingRes) && hex.data.buildingType == MapCellData.Catalogue.Event)
         {
             var go = Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(hex.data.buildingRes));
             go.transform.SetParent(hex.transform, false);
@@ -442,7 +443,7 @@ public class Medusa
                 SerializeWalkalbeNode(walkableRoot, k, e);
             }
 
-            if (k.buildingType == MapCellData.HasEvent.Has)
+            if (k.buildingType == MapCellData.Catalogue.Event)
             {
                 XmlElement e = xmldoc.CreateElement("Node");
                 SerializeEventNode(eventRoot, k, e);
@@ -484,7 +485,7 @@ public class Medusa
                     sw.Write($"buildingType = {(int)k.buildingType},");
                     sw.Write($"res = '{k.res}',");
                     sw.Write($"buildingRes = '{k.buildingRes}',");
-                    sw.Write($"eventId = {(k.buildingType == MapCellData.HasEvent.Has ? (int)k.eventType : 0)},");
+                    sw.Write($"eventId = {(k.buildingType == MapCellData.Catalogue.Event ? (int)k.eventType : 0)},");
                     sw.WriteLine("},");
                 }
 
@@ -527,10 +528,10 @@ public class Medusa
     /// <param name="type">笔刷类型</param>
     /// <param name="objs">笔刷预制体</param>
     /// <returns></returns>
-    public GUIContent[] PreviewBases(MapCellData.HasEvent type,out UnityEngine.GameObject[] objs)
+    public GUIContent[] PreviewBases(MapCellData.Catalogue type,out UnityEngine.GameObject[] objs)
     {
         var path = floorPath;
-        if (type == MapCellData.HasEvent.Has)
+        if (type == MapCellData.Catalogue.Event)
             path = brashPath;
 
         var files = System.IO.Directory.GetFiles(Application.dataPath + path, "*.prefab", System.IO.SearchOption.TopDirectoryOnly);
@@ -553,14 +554,18 @@ public class Medusa
     /// <summary>
     /// 创建地图
     /// </summary>
-    /// <param name="height">默认第0层</param>
-    public void CreateMap()
+    public void CreateMap(bool genRes = true)
     {
         map = ScriptableObject.CreateInstance<MapData>();
+        this.genRes = genRes;
         map.cells = new MapCellData[mapHeight * mapWidth];
-        map.hexs = new Hex[mapHeight * mapWidth];
+        if (genRes)
+        {
+            map.hexs = new Hex[mapHeight * mapWidth];
+        }
         map.mapWidth = mapWidth;
         map.mapHeight = mapHeight;
+        map.layerCount = 1;
         for (int j = 0; j < mapHeight; j++)
         {
             for (int i = 0; i < mapWidth; i++)
@@ -571,17 +576,36 @@ public class Medusa
                 data.y = j;
                 data.z = 0;
                 map.cells[data.id] = data;
-                var hex = InitHex(data);
-                map.hexs[data.id] = hex;
+                if (genRes)
+                {
+                    var hex = InitHex(data);
+                    map.hexs[data.id] = hex;
+                }
+            }
+        }
+        Link();
+    }
+
+    /// <summary>
+    /// 连接节点
+    /// </summary>
+    public void Link()
+    {
+        if (map)
+        {
+            foreach (var k in map.cells)
+            {
+                k.Link(map);
             }
         }
     }
+
 
     public void DeleteBuilding(HexBuilding building)
     {
         if (building.hex)
         {
-            building.hex.data.buildingType = MapCellData.HasEvent.None;
+            building.hex.data.buildingType = MapCellData.Catalogue.Floor;
             building.hex.data.buildingRes = string.Empty;
         }
     }
@@ -607,6 +631,20 @@ public class Medusa
         defaultBrush = brush;
         var array = map.hexs;
         ChangeHexsToBrushType(array, defaultBrush);
+    }
+
+    /// <summary>
+    /// 替换成默认笔刷
+    /// </summary>
+    /// <param name="brush"></param>
+    public void ChangeAllCellToBrushType(HexBrush brush)
+    {
+        defaultBrush = brush;
+        var array = map.cells;
+        foreach (var k in array)
+        {
+            ChangeCell(k, defaultBrush);
+        }
     }
 
 
@@ -648,6 +686,19 @@ public class Medusa
 
             GenBuildingResWithUndo(hex);
         }
+    }
+
+    /// <summary>
+    /// 替换各自数据，目前只有2种属性需要替换
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="brush"></param>
+    public void ChangeCell(MapCellData data, HexBrush brush)
+    {
+        data.eventType = brush.data.eventType;
+        data.walkType = brush.data.walkType;
+        data.buildingType = brush.data.buildingType;
+        data.cost = brush.data.cost;
     }
 
     public void GenBuildingResWithUndo(Hex hex)

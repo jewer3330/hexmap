@@ -16,7 +16,7 @@ public class BrushCreateTool : EditorWindow
         get
         {
             var path = floor_path;
-            if (data.buildingType == MapCellData.HasEvent.Has)
+            if (data.buildingType == MapCellData.Catalogue.Event)
             {
                 path = facilities_path;
             }
