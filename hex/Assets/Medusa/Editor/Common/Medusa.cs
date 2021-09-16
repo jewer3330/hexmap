@@ -213,14 +213,17 @@ public class Medusa
             Debug.LogError("最起码有一层吧？？");
             return;
         }
-        int size = map.hexs.Length;
+        int size = map.cells.Length;
         for (int i = size - 1; i >= 0; i--)
         {
             if (map.cells[i].z == l)
             {
                 map.cells[i] = null;
-                GameObject.DestroyImmediate(map.hexs[i].gameObject);
-                map.hexs[i] = null;
+                if (genRes)
+                {
+                    GameObject.DestroyImmediate(map.hexs[i].gameObject);
+                    map.hexs[i] = null;
+                }
 
 
             }
@@ -235,9 +238,11 @@ public class Medusa
 
 
         var left_cells = map.cells.Where(r => r != null).ToArray();
-        var left_hexs = map.hexs.Where(r => r != null).ToArray();
-
-        map.hexs = left_hexs;
+        if (genRes)
+        {
+            var left_hexs = map.hexs.Where(r => r != null).ToArray();
+            map.hexs = left_hexs;
+        }
         map.cells = left_cells;
 
         

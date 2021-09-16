@@ -1,7 +1,8 @@
 # 六边形编辑器
 ## 预览
 ![编辑场景](./doc/1.png)
-
+新增了2D 编辑器
+![编辑场景](./doc/5.png)
 ## 操作说明
 1. 工具栏说明
 * ![打开文件](./hex/Assets/MapEditor/Editor/Icons/folder-line.png)  打开文件  
