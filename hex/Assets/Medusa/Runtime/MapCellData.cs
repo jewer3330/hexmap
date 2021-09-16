@@ -15,6 +15,7 @@ public class MapCellData
     public WalkType walkType = WalkType.Walkable;
     public EventType eventType = EventType.None;
     public HasEvent buildingType = HasEvent.None;
+    public bool active;
 
     [System.NonSerialized]
     public float gValue = 999f;
@@ -288,27 +289,43 @@ public class MapCellData
 
     public void OnEditorGUI(Rect area,int scale,Vector2 offset)
     {
-        Handles.BeginGUI();
-        var w = World.ToWorldPos(new Vector2(x, y));
-        //转2D坐标
-        var center = new Vector2(w.x, w.z);
-        var p0 = center +  new Vector2(0, Globals.Radius);
-        var p1 = center +  new Vector2(Globals.HalfWidth, Globals.Radius / 2);
-        var p2 = center +  new Vector2(Globals.HalfWidth, -Globals.Radius / 2);
-        var p3 = center +  new Vector2(0, -Globals.Radius);
-        var p4 = center +  new Vector2(-Globals.HalfWidth, -Globals.Radius / 2);
-        var p5 = center +  new Vector2(-Globals.HalfWidth, Globals.Radius / 2);
+        if (active)
+        {
+            Handles.BeginGUI();
+            var oldcolor = Handles.color;
+            var color = Color.green;
+            if (walkType == WalkType.Unwalkable)
+            {
+                color = Color.red;
+            }
+            if (eventType != EventType.None)
+            {
+                color = Color.yellow;
+            }
+            Handles.color = color;
+            var w = World.ToWorldPos(new Vector2(x, y));
+            //转2D坐标
+            var center = new Vector2(w.x, w.z);
+            var p0 = center + new Vector2(0, Globals.Radius);
+            var p1 = center + new Vector2(Globals.HalfWidth, Globals.Radius / 2);
+            var p2 = center + new Vector2(Globals.HalfWidth, -Globals.Radius / 2);
+            var p3 = center + new Vector2(0, -Globals.Radius);
+            var p4 = center + new Vector2(-Globals.HalfWidth, -Globals.Radius / 2);
+            var p5 = center + new Vector2(-Globals.HalfWidth, Globals.Radius / 2);
 
 
-        Handles.DrawLine(ToArea(p0, scale, area, offset), ToArea( p1, scale, area, offset));
-        Handles.DrawLine(ToArea(p1, scale, area, offset), ToArea( p2, scale, area, offset));
-        Handles.DrawLine(ToArea(p2, scale, area, offset), ToArea( p3, scale, area, offset));
-        Handles.DrawLine(ToArea(p3, scale, area, offset), ToArea( p4, scale, area, offset));
-        Handles.DrawLine(ToArea(p4, scale, area, offset), ToArea( p5, scale, area, offset));
-        Handles.DrawLine(ToArea(p5, scale, area, offset), ToArea( p0, scale, area, offset));
+            Handles.DrawLine(ToArea(p0, scale, area, offset), ToArea(p1, scale, area, offset));
+            Handles.DrawLine(ToArea(p1, scale, area, offset), ToArea(p2, scale, area, offset));
+            Handles.DrawLine(ToArea(p2, scale, area, offset), ToArea(p3, scale, area, offset));
+            Handles.DrawLine(ToArea(p3, scale, area, offset), ToArea(p4, scale, area, offset));
+            Handles.DrawLine(ToArea(p4, scale, area, offset), ToArea(p5, scale, area, offset));
+            Handles.DrawLine(ToArea(p5, scale, area, offset), ToArea(p0, scale, area, offset));
 
-        Handles.Label(ToArea(center,scale,area,offset), id.ToString());
-        Handles.EndGUI();
+            Handles.Label(ToArea(center, scale, area, offset), id.ToString());
+
+            Handles.color = oldcolor;
+            Handles.EndGUI();
+        }
     }
 
 

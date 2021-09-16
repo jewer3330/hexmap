@@ -175,7 +175,7 @@ public class MedusaToolWindow : SceneView
                     if (cell)
                     {
 
-                        MapCellTool.Draw(cell);
+                        MapCellTool.Draw(cell.data);
                     }
 
                     HexBuilding build = k.gameObject.GetComponent<HexBuilding>();
@@ -186,7 +186,7 @@ public class MedusaToolWindow : SceneView
                             GUI.color = Color.red;
                             EditorGUILayout.LabelField("选中了事件");
                             GUI.color = Color.white;
-                            MapCellTool.Draw(build.hex);
+                            MapCellTool.Draw(build.hex.data);
                         }
                     }
                 }

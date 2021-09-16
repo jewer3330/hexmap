@@ -5,10 +5,10 @@ using UnityEditor;
 
 public class MapCellTool : Editor {
 
-    public static void Draw(Hex cell)
+    public static void Draw(MapCellData cell)
     {
-        EditorGUILayout.LabelField("id", cell.data.id.ToString());
-        EditorGUILayout.LabelField(string.Format("pos ({0},{1})", cell.data.x.ToString(), cell.data.y.ToString()));
+        EditorGUILayout.LabelField("id", cell.id.ToString());
+        EditorGUILayout.LabelField(string.Format("pos ({0},{1})", cell.x.ToString(), cell.y.ToString()));
 
         OnPropertyChange(cell);
 
@@ -26,18 +26,17 @@ public class MapCellTool : Editor {
 
     }
 
-    public static void OnPropertyChange(Hex cell)
+    public static void OnPropertyChange(MapCellData cell)
     {
-        if (!cell) 
+        if (null == cell) 
             return;
-        if (null == cell.data)
-            return;
-        EditorGUILayout.LabelField("是否事件", cell.data.buildingType.ToString());
-        EditorGUILayout.LabelField("是否可走", cell.data.walkType.ToString());
-        EditorGUILayout.LabelField("地基资源", cell.data.res.ToString());
-        EditorGUILayout.LabelField("事件资源", cell.data.buildingRes.ToString());
-        if (cell.data.buildingType == MapCellData.HasEvent.Has)
-            EditorGUILayout.LabelField("事件类型", cell.data.eventType.ToString());
+        
+        EditorGUILayout.LabelField("是否事件", cell.buildingType.ToString());
+        EditorGUILayout.LabelField("是否可走", cell.walkType.ToString());
+        EditorGUILayout.LabelField("地基资源", cell.res.ToString());
+        EditorGUILayout.LabelField("事件资源", cell.buildingRes.ToString());
+        if (cell.buildingType == MapCellData.HasEvent.Has)
+            EditorGUILayout.LabelField("事件类型", cell.eventType.ToString());
        
     }
 

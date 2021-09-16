@@ -1,19 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 public class MedusaToolWindow2D : EditorWindow
 {
 
+    private int startY = 0;
 
     private int width => 300;
-    private int topHeight => 200;
+    private int topHeight => 300;
     private Rect toolBarSize => new Rect(0, 0, width, 20);
     public Rect topSize => new Rect(0, 20, width, topHeight);
     public Rect topSizeBrush => new Rect(width + 10, 20, this.position.width - topSize.width - width * 2, 100);
 
-    public Rect contentSize => new Rect(0, topSize.y + topSize.height + 10, this.position.width, 600);
+    public Rect contentSize => new Rect(0, topSize.y + topSize.height + 10, this.position.width, this.position.height - topHeight - 10);
+
+    private Rect infoSize => new Rect(clickPos.x, clickPos.y, width, 300);
+
+    private Rect layerSize => GUILayer ? new Rect(this.position.width - width, startY, 300, topHeight) : new Rect(this.position.width - 80, startY, 300, 20);
+
+
+    private Vector2 clickPos;
 
     public Medusa medusa;
 
@@ -47,6 +56,8 @@ public class MedusaToolWindow2D : EditorWindow
             OnGUITopSize(topSize);
             OnGUIMapcell(contentSize);
             OnGUIBrush(topSizeBrush);
+            OnGUIInfo(infoSize);
+            OnGUILayer(layerSize);
         }
     }
 
@@ -125,6 +136,7 @@ public class MedusaToolWindow2D : EditorWindow
     }
     private int scale = 10;
     private Vector2 offset;
+    private MapCellData selectData;
     private void OnGUIMapcell(Rect size)
     {
         using (new RectScrope(size,"地图信息"))
@@ -145,13 +157,18 @@ public class MedusaToolWindow2D : EditorWindow
             if (Event.current.isMouse && Event.current.button == 0) //鼠标左键
             {
                 var screenP = Event.current.mousePosition;
+                clickPos = screenP;
                 var wp = MapCellData.ToWorld(screenP, scale, size, offset);
                 var h = World.ToHex(wp);
                 if (medusa != null && medusa.map)
                 {
-                    var index = medusa.map.HexPositionToIndex((int)h.x, (int)h.y, 0);
-                    Debug.Log(index);
-                    Event.current.Use();
+                    if (h.x < medusa.map.mapWidth && h.y < medusa.map.mapHeight)
+                    {
+                        var index = medusa.map.HexPositionToIndex((int)h.x, (int)h.y, layerSelect);
+                        Debug.Log(index);
+                        selectData = medusa.map.cells[index];
+                        Event.current.Use();
+                    }
                 }
             }
 
@@ -218,5 +235,104 @@ public class MedusaToolWindow2D : EditorWindow
             currentSelect = objs[s];
         }
 
+    }
+
+
+
+    void OnGUIInfo(Rect size)
+    {
+        if (selectData != null)
+        {
+
+            using (new RectScrope(size, "详细信息"))
+            {
+
+                if (selectData.eventType != MapCellData.EventType.None)
+                    EditorGUILayout.LabelField("选中了事件");
+                MapCellTool.Draw(selectData);
+            }
+
+        }
+    }
+
+
+    private bool GUILayer = true;
+    private Vector2 layerScroll;
+    private int layerSelect = 0;
+    private int defaultBrushIndex;
+    private void OnGUILayer(Rect size)
+    {
+
+        EditorGUI.DrawRect(size, Color.gray * 0.7f);
+        GUILayout.BeginArea(size);
+
+        GUILayer = EditorGUILayout.BeginFoldoutHeaderGroup(GUILayer, "新增层级");
+        //EditorGUILayout.LabelField("层级");
+
+        if (GUILayer)
+        {
+            using (new RectScrope(new Rect( 0,20, size.width, size.height / 2), "layers"))
+            {
+                layerScroll = GUILayout.BeginScrollView(layerScroll);
+                var layers = medusa.GetLayers();
+                if (layers != null)
+                {
+                    var contents = layers.Select(r => new GUIContent("第" + r.Key.ToString() + "层")).ToArray();
+                    var s = GUILayout.SelectionGrid(layerSelect, contents, 1);
+                    if (s != layerSelect)
+                    {
+                        medusa.ActiveLayer(layers[layerSelect], false);
+                        layerSelect = s;
+                    }
+                }
+                GUILayout.EndScrollView();
+
+                if (layers != null && layers.Length > layerSelect && layerSelect >= 0)
+                    OnLayer(layers[layerSelect], layerSelect);
+            }
+
+            using (new RectScrope(new Rect(0, size.height / 2 + 20, size.width, size.height / 2), "新增层级"))
+            {
+
+                EditorGUILayout.LabelField("选择默认地基");
+
+                GameObject[] objs = null;
+                var sel = GUILayout.SelectionGrid(defaultBrushIndex, medusa.PreviewBases(MapCellData.HasEvent.None, out objs), 4, GUILayout.Height(70));
+                var defaultBrush = medusa.defaultBrush;
+                if (defaultBrush == null)
+                {
+                    defaultBrush = objs[0].GetComponent<HexBrush>();
+                    medusa.defaultBrush = defaultBrush;
+
+                }
+                if (sel != defaultBrushIndex)
+                {
+                    defaultBrushIndex = sel;
+                    defaultBrush = objs[sel].GetComponent<HexBrush>();
+                    medusa.defaultBrush = defaultBrush;
+                }
+
+                if (GUILayout.Button("+"))
+                {
+                    medusa.AddMapLayer();
+
+                }
+            }
+        }
+        GUILayout.EndArea();
+    }
+
+    private void OnLayer(IGrouping<int, MapCellData> layer, int l)
+    {
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("当前层级" + l.ToString());
+        medusa.ActiveLayer(layer, true);
+        if (GUILayout.Button("删除"))
+        {
+            medusa.RemoveMapLayer(l);
+            layerSelect = 0;
+        }
+
+        GUILayout.EndHorizontal();
     }
 }

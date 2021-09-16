@@ -70,6 +70,8 @@ public class Medusa
     /// </summary>
     public HexBrush defaultBrush;
 
+    private bool genRes;
+
     /// <summary>
     /// 加载地图
     /// </summary>
@@ -96,6 +98,7 @@ public class Medusa
             this.map = Object.Instantiate(map);
         mapWidth = map.mapWidth;
         mapHeight = map.mapHeight;
+        this.genRes = genRes;
         if (genRes)
         {
             this.map.hexs = new Hex[mapWidth * mapHeight * (map.layerCount + 1)];
@@ -132,8 +135,12 @@ public class Medusa
         for (int i = 0; i < cells.Count; i++)
         {
             var id = map.HexPositionToIndex(cells[i].x, cells[i].y, cells[i].z);
-            if (map.hexs[id])
-                map.hexs[id].gameObject.SetActive(active);
+            map.cells[id].active = active;
+            if (genRes)
+            {
+                if (map.hexs[id])
+                    map.hexs[id].gameObject.SetActive(active);
+            }
         }
     }
 
@@ -151,11 +158,10 @@ public class Medusa
         int count = map.layerCount + 1;
         int size = map.mapWidth * map.mapHeight;
         var cells = new MapCellData[size * count];
-        var hexs = new Hex[size * count];
+       
 
-        Array.Copy(map.hexs, hexs, map.hexs.Length);
+       
         Array.Copy(map.cells, cells, map.cells.Length);
-        var t_hexs = new List<Hex>();
         for (int j = 0; j < mapHeight; j++)
         {
             for (int i = 0; i < mapWidth; i++)
@@ -166,16 +172,35 @@ public class Medusa
                 data.y = j;
                 data.z = map.layerCount;
                 cells[data.id] = data;
-                var hex = InitHex(data);
-                hexs[data.id] = hex;
-                t_hexs.Add(hex);
             }
         }
 
-        map.hexs = hexs;
+       
         map.cells = cells;
-        if (defaultBrush)
-            ChangeHexsToBrushType(t_hexs, defaultBrush);
+        if (genRes)
+        {
+            var hexs = new Hex[size * count];
+            Array.Copy(map.hexs, hexs, map.hexs.Length);
+
+
+            var t_hexs = new List<Hex>();
+            for (int j = 0; j < mapHeight; j++)
+            {
+                for (int i = 0; i < mapWidth; i++)
+                {
+                    var id = map.HexPositionToIndex(i, j, map.layerCount);
+                    var data = cells[id];
+                    var hex = InitHex(data);
+                    hexs[id] = hex;
+                    t_hexs.Add(hex);
+                }
+            }
+
+
+            map.hexs = hexs;
+            if (defaultBrush)
+                ChangeHexsToBrushType(t_hexs, defaultBrush);
+        }
     }
 
     /// <summary>
